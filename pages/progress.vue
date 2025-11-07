@@ -1,3 +1,8 @@
+<script setup>
+// This is a placeholder for future progress tracking features
+// You can expand this to show charts, statistics, and historical data
+</script>
+
 <template>
   <div class="px-4 py-6">
     <h1 class="text-3xl font-bold text-gray-900 mb-6">Progress Tracker</h1>
@@ -13,8 +18,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-// This is a placeholder for future progress tracking features
-// You can expand this to show charts, statistics, and historical data
-</script>
