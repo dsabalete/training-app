@@ -1,42 +1,77 @@
 <script setup>
 defineOptions({
-  name: 'EmptyState'
+  name: 'EmptyState',
 })
 
-const props = defineProps({
+defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   message: {
     type: String,
-    required: true
+    required: true,
   },
   buttonText: {
     type: String,
-    default: 'Create'
-  }
+    default: 'Create',
+  },
 })
 
 const emit = defineEmits(['action'])
 </script>
 
 <template>
-  <UCard style="text-align: center; border: 2px solid #fed7aa; background: linear-gradient(to bottom right, #fff7ed, white);">
-    <div style="padding: 3rem 0;">
-      <div style="width: 6rem; height: 6rem; background: linear-gradient(to bottom right, #fb923c, #ea580c); border-radius: 9999px; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center;">
-        <UIcon name="i-heroicons-fire" class="w-12 h-12" style="color: white;" />
+  <UCard class="empty-state">
+    <div class="empty-state__content">
+      <div class="empty-state__icon-wrapper">
+        <UIcon name="i-heroicons-fire" class="empty-state__icon" />
       </div>
-      <h2 style="font-size: 1.5rem; font-weight: bold; color: #9a3412; margin-bottom: 0.75rem;">{{ title }}</h2>
-      <p style="color: #374151; margin-bottom: 2rem; font-size: 1.125rem;">{{ message }}</p>
+
+      <h2 class="empty-state__title">{{ title }}</h2>
+
+      <p class="empty-state__message">{{ message }}</p>
       <UButton
+        v-bind="$attrs"
         :label="buttonText"
         color="primary"
         size="xl"
         icon="i-heroicons-plus-circle"
-        style="font-weight: bold; padding: 0.75rem 2rem;"
+        class="empty-state__button"
         @click="emit('action')"
       />
     </div>
   </UCard>
 </template>
+
+<style lang="css" scoped>
+@reference "tailwindcss";
+
+.empty-state {
+  @apply text-center border-2 border-orange-200 bg-linear-to-br from-orange-50 to-white;
+}
+
+.empty-state__content {
+  @apply py-12;
+}
+
+.empty-state__icon-wrapper {
+  @apply w-24 h-24 bg-linear-to-br from-orange-400 to-orange-600 rounded-full mx-auto mb-6 flex items-center justify-center;
+}
+
+.empty-state__icon {
+  @apply w-12 h-12 text-white;
+}
+
+.empty-state__title {
+  @apply text-2xl font-bold text-orange-900 mb-3;
+}
+
+.empty-state__message {
+  @apply text-gray-700 mb-8 text-lg;
+}
+
+.empty-state__button {
+  @apply font-bold px-8 py-3;
+}
+</style>

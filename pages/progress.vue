@@ -1,6 +1,6 @@
 <script setup>
 defineOptions({
-  name: 'ProgressPage'
+  name: 'ProgressPage',
 })
 
 // This is a placeholder for future progress tracking features
@@ -8,38 +8,101 @@ defineOptions({
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div class="flex items-center gap-3">
-      <div style="width: 0.25rem; height: 3rem; background: linear-gradient(to bottom, #f97316, #ea580c); border-radius: 9999px;"></div>
-      <h1 style="font-size: 2.25rem; font-weight: bold; background: linear-gradient(to right, #ea580c, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-        Progress Tracker
-      </h1>
-    </div>
+  <div class="progress-page">
+    <div class="progress-page__header">
+      <div class="progress-page__divider" />
 
-    <UCard style="border: 2px solid #fed7aa; background: linear-gradient(to bottom right, white, #fff7ed);">
+      <h1 class="progress-page__title">Progress Tracker</h1>
+    </div>
+    <UCard class="progress-page__card">
       <template #header>
-        <div style="background: linear-gradient(to right, #f97316, #ea580c); color: white; padding: 1rem; margin: -1.5rem -1.5rem 0 -1.5rem; border-radius: 0.5rem 0.5rem 0 0; display: flex; align-items: center; gap: 0.5rem;">
-          <UIcon name="i-heroicons-chart-bar-square" class="w-5 h-5" />
-          <h2 style="font-size: 1.125rem; font-weight: bold;">Coming Soon</h2>
+        <div class="progress-page__card-header">
+          <UIcon name="i-heroicons-chart-bar-square" class="progress-page__card-header-icon" />
+          <h2 class="progress-page__card-header-title">Coming Soon</h2>
         </div>
       </template>
-
-      <div style="padding: 3rem 0;">
-        <div style="text-align: center; margin-bottom: 2rem;">
-          <div style="width: 6rem; height: 6rem; background: linear-gradient(to bottom right, #fb923c, #ea580c); border-radius: 9999px; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center;">
-            <UIcon name="i-heroicons-chart-bar" class="w-12 h-12" style="color: white;" />
+      <div class="progress-page__card-content">
+        <div class="progress-page__icon-section">
+          <div class="progress-page__icon-wrapper">
+            <UIcon name="i-heroicons-chart-bar" class="progress-page__icon" />
           </div>
         </div>
-        <div style="text-align: center;">
-          <p style="color: #9a3412; font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">
+
+        <div class="progress-page__text-section">
+          <p class="progress-page__message">
             Select an exercise from your workout plan to view your training history and progress over time.
           </p>
-          <p style="color: #374151; font-size: 1rem;">
-            This page will show your logged sets, reps, and weights for each exercise.
-            Future enhancements can include charts and progress analytics.
+
+          <p class="progress-page__description">
+            This page will show your logged sets, reps, and weights for each exercise. Future enhancements can include
+            charts and progress analytics.
           </p>
         </div>
       </div>
     </UCard>
   </div>
 </template>
+
+<style lang="css" scoped>
+@reference "tailwindcss";
+
+.progress-page {
+  @apply space-y-6;
+}
+
+.progress-page__header {
+  @apply flex items-center gap-3;
+}
+
+.progress-page__divider {
+  @apply w-1 h-12 bg-linear-to-b from-orange-500 to-orange-600 rounded-full;
+}
+
+.progress-page__title {
+  @apply text-4xl font-bold bg-linear-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent;
+}
+
+.progress-page__card {
+  @apply border-2 border-orange-200 bg-linear-to-br from-white to-orange-50;
+}
+
+.progress-page__card-header {
+  @apply bg-linear-to-r from-orange-500 to-orange-600 text-white p-4 -m-6 -mt-6 rounded-t-lg flex items-center gap-2;
+}
+
+.progress-page__card-header-icon {
+  @apply w-5 h-5;
+}
+
+.progress-page__card-header-title {
+  @apply text-lg font-bold;
+}
+
+.progress-page__card-content {
+  @apply py-12;
+}
+
+.progress-page__icon-section {
+  @apply text-center mb-8;
+}
+
+.progress-page__icon-wrapper {
+  @apply w-24 h-24 bg-linear-to-br from-orange-400 to-orange-600 rounded-full mx-auto mb-6 flex items-center justify-center;
+}
+
+.progress-page__icon {
+  @apply w-12 h-12 text-white;
+}
+
+.progress-page__text-section {
+  @apply text-center;
+}
+
+.progress-page__message {
+  @apply text-orange-900 text-xl font-semibold mb-4;
+}
+
+.progress-page__description {
+  @apply text-gray-700 text-base;
+}
+</style>

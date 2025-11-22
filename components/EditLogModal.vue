@@ -1,73 +1,73 @@
 <script setup>
 defineOptions({
-  name: 'EditLogModal'
+  name: 'EditLogModal',
 })
 
 const props = defineProps({
   log: {
     type: Object,
-    default: null
-  }
+    default: null,
+  },
 })
 
 const emit = defineEmits(['update', 'delete', 'close'])
 
 const isOpen = computed({
   get: () => !!props.log,
-  set: (value) => {
+  set: value => {
     if (!value) emit('close')
-  }
+  },
 })
 
-const editingLog = computed({
-  get: () => props.log ? { ...props.log } : null,
-  set: (value) => {
-    if (props.log && value) {
-      Object.assign(props.log, value)
-    }
-  }
-})
+const editingLog = ref(null)
+
+watch(
+  () => props.log,
+  newLog => {
+    editingLog.value = newLog ? { ...newLog } : null
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
-  <UModal v-model="isOpen" :ui="{ width: 'max-w-md' }" title="Edit Log" description="Update the date, reps, and weight for this training log entry.">
-    <UCard style="border: 2px solid #fed7aa;">
+  <UModal
+    v-model="isOpen"
+    :ui="{ width: 'max-w-md' }"
+    title="Edit Log"
+    description="Update the date, reps, and weight for this training log entry."
+  >
+    <UCard class="edit-log-modal">
       <template #header>
-        <div style="background: linear-gradient(to right, #f97316, #ea580c); color: white; padding: 1rem; margin: -1.5rem -1.5rem 0 -1.5rem; border-radius: 0.5rem 0.5rem 0 0; display: flex; align-items: center; gap: 0.5rem;">
-          <UIcon name="i-heroicons-pencil-square" class="w-5 h-5" />
-          <h3 style="font-size: 1.125rem; font-weight: bold;">Edit Log</h3>
+        <div class="edit-log-modal__header">
+          <UIcon name="i-heroicons-pencil-square" class="edit-log-modal__header-icon" />
+          <h3 class="edit-log-modal__header-title">Edit Log</h3>
         </div>
       </template>
-
-      <div v-if="editingLog" class="space-y-4" style="padding-top: 1rem;">
-        <div>
-          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #9a3412; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-            <UIcon name="i-heroicons-calendar" class="w-4 h-4" style="color: #f97316;" />
-            Date
+      <div v-if="editingLog" class="edit-log-modal__content">
+        <div class="edit-log-modal__field">
+          <label class="edit-log-modal__label">
+            <UIcon name="i-heroicons-calendar" class="edit-log-modal__label-icon" /> Date
           </label>
           <UInput
             v-model="editingLog.date"
             type="date"
             icon="i-heroicons-calendar"
             color="primary"
+            class="edit-log-modal__input"
           />
         </div>
-        <div>
-          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #9a3412; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-            <UIcon name="i-heroicons-hashtag" class="w-4 h-4" style="color: #f97316;" />
-            Reps
+
+        <div class="edit-log-modal__field">
+          <label class="edit-log-modal__label">
+            <UIcon name="i-heroicons-hashtag" class="edit-log-modal__label-icon" /> Reps
           </label>
-          <UInput
-            v-model.number="editingLog.reps"
-            type="number"
-            icon="i-heroicons-hashtag"
-            color="primary"
-          />
+          <UInput v-model.number="editingLog.reps" type="number" icon="i-heroicons-hashtag" color="primary" />
         </div>
-        <div>
-          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #9a3412; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-            <UIcon name="i-heroicons-scale" class="w-4 h-4" style="color: #f97316;" />
-            Weight (kg)
+
+        <div class="edit-log-modal__field">
+          <label class="edit-log-modal__label">
+            <UIcon name="i-heroicons-scale" class="edit-log-modal__label-icon" /> Weight (kg)
           </label>
           <UInput
             v-model.number="editingLog.weight"
@@ -78,30 +78,53 @@ const editingLog = computed({
           />
         </div>
       </div>
-
       <template #footer>
-        <div class="flex gap-3">
-          <UButton
-            label="Update"
-            color="primary"
-            icon="i-heroicons-check"
-            @click="emit('update')"
-          />
-          <UButton
-            label="Delete"
-            color="red"
-            variant="soft"
-            icon="i-heroicons-trash"
-            @click="emit('delete')"
-          />
-          <UButton
-            label="Cancel"
-            color="gray"
-            variant="soft"
-            @click="isOpen = false"
-          />
+        <div class="edit-log-modal__footer">
+          <UButton label="Update" color="primary" icon="i-heroicons-check" @click="emit('update', editingLog)" />
+          <UButton label="Delete" color="red" variant="soft" icon="i-heroicons-trash" @click="emit('delete')" />
+          <UButton label="Cancel" color="gray" variant="soft" @click="isOpen = false" />
         </div>
       </template>
     </UCard>
   </UModal>
 </template>
+
+<style lang="css" scoped>
+@reference "tailwindcss";
+
+.edit-log-modal {
+  @apply border-2 border-orange-200;
+}
+
+.edit-log-modal__header {
+  @apply bg-linear-to-r from-orange-500 to-orange-600 text-white p-4 -mt-6 -mx-6 rounded-t-lg flex items-center gap-2;
+}
+
+.edit-log-modal__header-icon {
+  @apply w-5 h-5;
+}
+
+.edit-log-modal__header-title {
+  @apply text-lg font-bold;
+}
+
+.edit-log-modal__content {
+  @apply space-y-4 pt-4;
+}
+
+.edit-log-modal__field {
+  @apply block;
+}
+
+.edit-log-modal__label {
+  @apply text-sm font-semibold text-orange-900 mb-2 flex items-center gap-2;
+}
+
+.edit-log-modal__label-icon {
+  @apply w-4 h-4 text-orange-500;
+}
+
+.edit-log-modal__footer {
+  @apply flex gap-3;
+}
+</style>

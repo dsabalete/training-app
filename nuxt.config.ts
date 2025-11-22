@@ -9,8 +9,4 @@ export default defineNuxtConfig({
       '@tailwindcss/postcss': {},
     },
   },
-  ui: {
-    primary: 'orange',
-    gray: 'slate',
-  },
 })

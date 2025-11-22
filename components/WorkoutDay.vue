@@ -1,45 +1,46 @@
 <script setup>
 defineOptions({
-  name: 'WorkoutDay'
+  name: 'WorkoutDay',
 })
 
 const props = defineProps({
   day: {
     type: Object,
-    required: true
+    required: true,
   },
   exercises: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   exerciseLogs: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   selectedDate: {
     type: String,
-    required: true
+    required: true,
   },
   loggingExercise: {
     type: Number,
-    default: null
+    default: null,
   },
   logData: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 })
 
 const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
 </script>
 
 <template>
-  <UCard style="border: 2px solid #fed7aa; background: linear-gradient(to bottom right, white, #fff7ed);">
+  <UCard class="workout-day">
     <template #header>
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <div style="width: 0.75rem; height: 0.75rem; background: #f97316; border-radius: 9999px;"></div>
-          <h3 style="font-size: 1.125rem; font-weight: bold; color: #9a3412;">{{ day.name }}</h3>
+      <div class="workout-day__header">
+        <div class="workout-day__title-group">
+          <div class="workout-day__indicator"></div>
+
+          <h3 class="workout-day__title">{{ day.name }}</h3>
         </div>
         <UButton
           label="Add Exercise"
@@ -51,8 +52,7 @@ const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
         />
       </div>
     </template>
-
-    <div v-if="exercises && exercises.length > 0" class="space-y-4">
+    <div v-if="exercises && exercises.length > 0" class="workout-day__exercises">
       <ExerciseCard
         v-for="exercise in exercises"
         :key="exercise.id"
@@ -67,9 +67,9 @@ const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
       />
     </div>
 
-    <div v-else style="text-align: center; padding: 3rem 0; background: linear-gradient(to bottom right, #fff7ed, #ffedd5); border-radius: 0.5rem; border: 2px dashed #fdba74;">
-      <UIcon name="i-heroicons-fire" class="w-16 h-16" style="color: #fb923c; margin: 0 auto 1rem;" />
-      <p style="color: #9a3412; font-weight: 500; margin-bottom: 1rem;">No exercises yet.</p>
+    <div v-else class="workout-day__empty">
+      <UIcon name="i-heroicons-fire" class="workout-day__empty-icon" />
+      <p class="workout-day__empty-text">No exercises yet.</p>
       <UButton
         label="Add Exercise"
         color="primary"
@@ -80,3 +80,43 @@ const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
     </div>
   </UCard>
 </template>
+
+<style lang="css" scoped>
+@reference "tailwindcss";
+
+.workout-day {
+  @apply border-2 border-orange-200 bg-linear-to-br from-white to-orange-50;
+}
+
+.workout-day__header {
+  @apply flex justify-between items-center;
+}
+
+.workout-day__title-group {
+  @apply flex items-center gap-3;
+}
+
+.workout-day__indicator {
+  @apply w-3 h-3 bg-orange-500 rounded-full;
+}
+
+.workout-day__title {
+  @apply text-lg font-bold text-orange-900;
+}
+
+.workout-day__exercises {
+  @apply space-y-4;
+}
+
+.workout-day__empty {
+  @apply text-center py-12 bg-linear-to-br from-orange-50 to-orange-100 rounded-lg border-2 border-dashed border-orange-300;
+}
+
+.workout-day__empty-icon {
+  @apply w-16 h-16 text-orange-400 mx-auto mb-4;
+}
+
+.workout-day__empty-text {
+  @apply text-orange-900 font-medium mb-4;
+}
+</style>

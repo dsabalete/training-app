@@ -1,21 +1,21 @@
 <script setup>
 defineOptions({
-  name: 'WeekNavigation'
+  name: 'WeekNavigation',
 })
 
-const props = defineProps({
+defineProps({
   currentWeek: {
     type: Number,
-    required: true
+    required: true,
   },
   planWeekNumber: {
     type: Number,
-    required: true
+    required: true,
   },
   startDate: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const emit = defineEmits(['navigate', 'progress', 'goToCurrent'])
@@ -27,8 +27,8 @@ function formatDate(dateString) {
 </script>
 
 <template>
-  <div class="flex justify-between items-center mb-4">
-    <div class="flex items-center gap-4">
+  <div class="week-navigation">
+    <div class="week-navigation__controls">
       <UButton
         icon="i-heroicons-chevron-left"
         color="primary"
@@ -38,21 +38,17 @@ function formatDate(dateString) {
       >
         Previous
       </UButton>
-      <div style="background: linear-gradient(to right, #f97316, #ea580c); padding: 0.5rem 1rem; border-radius: 0.5rem; color: white;">
-        <h2 class="text-xl font-bold" style="color: white;">Week {{ currentWeek }}</h2>
-        <p class="text-xs" style="color: #fed7aa;">Started: {{ formatDate(startDate) }}</p>
+      <div class="week-navigation__badge">
+        <h2 class="week-navigation__week">Week {{ currentWeek }}</h2>
+
+        <p class="week-navigation__date">Started: {{ formatDate(startDate) }}</p>
       </div>
-      <UButton
-        icon="i-heroicons-chevron-right"
-        trailing
-        color="primary"
-        variant="soft"
-        @click="emit('navigate', 1)"
-      >
+      <UButton icon="i-heroicons-chevron-right" trailing color="primary" variant="soft" @click="emit('navigate', 1)">
         Next
       </UButton>
     </div>
-    <div class="flex gap-2">
+
+    <div class="week-navigation__actions">
       <UButton
         v-if="currentWeek === planWeekNumber"
         color="green"
@@ -72,3 +68,31 @@ function formatDate(dateString) {
     </div>
   </div>
 </template>
+
+<style lang="css" scoped>
+@reference "tailwindcss";
+
+.week-navigation {
+  @apply flex justify-between items-center mb-4;
+}
+
+.week-navigation__controls {
+  @apply flex items-center gap-4;
+}
+
+.week-navigation__badge {
+  @apply bg-linear-to-r from-orange-500 to-orange-600 px-4 py-2 rounded-lg text-white;
+}
+
+.week-navigation__week {
+  @apply text-xl font-bold text-white;
+}
+
+.week-navigation__date {
+  @apply text-xs text-orange-200;
+}
+
+.week-navigation__actions {
+  @apply flex gap-2;
+}
+</style>
