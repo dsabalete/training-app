@@ -59,34 +59,34 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_workout_plans_active ON workout_plans(is_active);
 `)
 
-// Sample exercises
+// Exercises to seed
 const exercises = [
-  { name: 'Bench Press', description: 'Chest compound exercise' },
-  { name: 'SM Incline Bench Press', description: 'Chest compound exercise' },
-  { name: 'DB Incline Bench Press', description: 'Chest compound exercise' },
-  { name: 'Squat', description: 'Leg compound exercise' },
-  { name: 'Deadlift', description: 'Full body compound exercise' },
-  { name: 'Overhead Press', description: 'Shoulder compound exercise' },
-  { name: 'Barbell Row', description: 'Back compound exercise' },
-  { name: 'Cable Row', description: 'Back compound exercise' },
-  { name: 'Supported Chest Row', description: 'Back compound exercise' },
-  { name: 'Pull-ups', description: 'Back and biceps exercise' },
-  { name: 'Dips', description: 'Chest and triceps exercise' },
   { name: 'Assisted Dips', description: 'Chest and triceps exercise' },
-  { name: 'Romanian Deadlift', description: 'Hamstring exercise' },
-  { name: 'Lat Pulldown', description: 'Back exercise' },
   { name: 'Assisted Lat Pulldown', description: 'Back exercise' },
-  { name: 'Leg Press', description: 'Leg exercise' },
+  { name: 'Barbell Row', description: 'Back compound exercise' },
+  { name: 'Bench Press', description: 'Chest compound exercise' },
   { name: 'Bicep Curl', description: 'Bicep isolation' },
-  { name: 'Streched Bicep Curl', description: 'Bicep isolation' },
-  { name: 'Tricep Extension', description: 'Tricep isolation' },
-  { name: 'OH Tricep Extension', description: 'Tricep isolation' },
-  { name: 'Lateral Raise', description: 'Shoulder isolation' },
-  { name: 'Machine Lateral Raise', description: 'Shoulder isolation' },
-  { name: 'Face Pull', description: 'Rear deltoid exercise' },
+  { name: 'Cable Row', description: 'Back compound exercise' },
   { name: 'Calf Raise', description: 'Calf isolation' },
+  { name: 'DB Incline Bench Press', description: 'Chest compound exercise' },
+  { name: 'Deadlift', description: 'Full body compound exercise' },
+  { name: 'Dips', description: 'Chest and triceps exercise' },
+  { name: 'Face Pull', description: 'Rear deltoid exercise' },
+  { name: 'Forearm Curl', description: 'Forearm isolation' },
+  { name: 'Lat Pulldown', description: 'Back exercise' },
+  { name: 'Lateral Raise', description: 'Shoulder isolation' },
+  { name: 'Leg Press', description: 'Leg exercise' },
+  { name: 'Machine Lateral Raise', description: 'Shoulder isolation' },
+  { name: 'OH Tricep Extension', description: 'Tricep isolation' },
+  { name: 'Overhead Press', description: 'Shoulder compound exercise' },
+  { name: 'Pull-ups', description: 'Back and biceps exercise' },
   { name: 'Reverse Forearm curl', description: 'Forearm isolation' },
-  { name: 'Forearm Curl', description: 'Forearm isolation' }
+  { name: 'Romanian Deadlift', description: 'Hamstring exercise' },
+  { name: 'SM Incline Bench Press', description: 'Chest compound exercise' },
+  { name: 'Squat', description: 'Leg compound exercise' },
+  { name: 'Streched Bicep Curl', description: 'Bicep isolation' },
+  { name: 'Supported Chest Row', description: 'Back compound exercise' },
+  { name: 'Tricep Extension', description: 'Tricep isolation' }
 ]
 
 const stmt = db.prepare('INSERT OR IGNORE INTO exercises (name, description) VALUES (?, ?)')

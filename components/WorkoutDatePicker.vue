@@ -1,38 +1,57 @@
 <script setup>
 defineOptions({
-  name: 'WorkoutDatePicker'
+  name: 'WorkoutDatePicker',
 })
 
 const props = defineProps({
   modelValue: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
 
 const selectedDate = computed({
   get: () => props.modelValue,
-  set: (value) => {
+  set: value => {
     emit('update:modelValue', value)
     emit('change', value)
-  }
+  },
 })
 </script>
 
 <template>
-  <div style="margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #fed7aa;">
-    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #9a3412; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-      <UIcon name="i-heroicons-calendar" class="w-4 h-4" style="color: #f97316;" />
-      Workout Date
+  <div class="workout-date-picker">
+    <label class="workout-date-picker__label">
+      <UIcon name="i-heroicons-calendar" class="workout-date-picker__icon" /> Workout Date
     </label>
     <UInput
       v-model="selectedDate"
       type="date"
       icon="i-heroicons-calendar"
       color="primary"
-      style="border: 2px solid #fed7aa;"
+      class="workout-date-picker__input"
     />
   </div>
 </template>
+
+<style lang="css" scoped>
+@reference "tailwindcss";
+
+.workout-date-picker {
+  @apply mt-4 pt-4 border-t-2 border-orange-200;
+}
+
+.workout-date-picker__label {
+  @apply flex items-center gap-2 text-sm font-semibold text-orange-900 mb-2;
+}
+
+.workout-date-picker__icon {
+  @apply w-4 h-4 text-orange-500;
+}
+
+.workout-date-picker__input {
+  @apply border-2 border-orange-200;
+}
+</style>
