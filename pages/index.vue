@@ -264,6 +264,11 @@ async function addExerciseToDay() {
   await loadPlan(currentWeek.value)
   toast.add({ title: 'Exercise added successfully!', color: 'green' })
 }
+
+async function handlePlanSelected() {
+  await loadPlan()
+  await loadLogsForDate()
+}
 </script>
 
 <template>
@@ -272,15 +277,18 @@ async function addExerciseToDay() {
       <div class="workout-plan__header-content">
         <h1 class="workout-plan__title">My Workout Plan</h1>
       </div>
-      <UButton
-        v-if="!plan"
-        label="Create Plan"
-        color="primary"
-        size="lg"
-        icon="i-heroicons-plus-circle"
-        class="workout-plan__create-button"
-        @click="createPlan"
-      />
+      <div class="workout-plan__header-actions">
+        <PlanSelector v-if="plan" :current-plan-id="plan.id" @plan-selected="handlePlanSelected" />
+        <UButton
+          v-if="!plan"
+          label="Create Plan"
+          color="primary"
+          size="lg"
+          icon="i-heroicons-plus-circle"
+          class="workout-plan__create-button"
+          @click="createPlan"
+        />
+      </div>
     </div>
 
     <div v-if="plan" class="workout-plan__content">

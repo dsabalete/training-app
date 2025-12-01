@@ -1,0 +1,141 @@
+<script setup>
+defineOptions({
+  name: 'PlanSelector',
+})
+
+const props = defineProps({
+  currentPlanId: {
+    type: Number,
+    default: null,
+  },
+})
+
+const emit = defineEmits(['planSelected'])
+
+const isOpen = ref(false)
+const plans = ref([])
+const loading = ref(false)
+
+async function loadPlans() {
+  loading.value = true
+  try {
+    const data = await $fetch('/api/plans')
+    plans.value = Array.isArray(data) ? data : []
+  } catch (error) {
+    console.error('Error loading plans:', error)
+    plans.value = []
+  } finally {
+    loading.value = false
+  }
+}
+
+async function selectPlan(plan) {
+  const toast = useToast()
+  try {
+    await $fetch(`/api/plans/${plan.id}/activate`, {
+      method: 'POST',
+    })
+    emit('planSelected', plan)
+    isOpen.value = false
+    toast.add({ title: `Switched to Week ${plan.week_number}`, color: 'green' })
+  } catch (error) {
+    console.error('Error activating plan:', error)
+    toast.add({ title: 'Failed to switch plan', color: 'red' })
+  }
+}
+
+function formatDate(dateString) {
+  if (!dateString) return ''
+  return new Date(dateString).toLocaleDateString()
+}
+
+watch(isOpen, newValue => {
+  if (newValue) {
+    loadPlans()
+  }
+})
+</script>
+
+<template>
+  <div class="plan-selector">
+    <UButton icon="i-heroicons-queue-list" color="primary" variant="soft" @click="isOpen = true"> Select Plan </UButton>
+
+    <UModal v-model="isOpen">
+      <UCard>
+        <template #header>
+          <h3 class="text-xl font-bold">Select Workout Plan</h3>
+        </template>
+
+        <div v-if="loading" class="plan-selector__loading">
+          <p>Loading plans...</p>
+        </div>
+
+        <div v-else-if="plans.length === 0" class="plan-selector__empty">
+          <p>No workout plans found. Create your first plan to get started!</p>
+        </div>
+
+        <div v-else class="plan-selector__list">
+          <div
+            v-for="plan in plans"
+            :key="plan.id"
+            class="plan-selector__item"
+            :class="{ 'plan-selector__item--active': plan.is_active }"
+            @click="selectPlan(plan)"
+          >
+            <div class="plan-selector__item-header">
+              <h4 class="plan-selector__item-title">Week {{ plan.week_number }}</h4>
+              <UBadge v-if="plan.is_active" color="green" variant="soft">Active</UBadge>
+            </div>
+            <div class="plan-selector__item-details">
+              <p class="plan-selector__item-date">Started: {{ formatDate(plan.start_date) }}</p>
+              <p v-if="plan.end_date" class="plan-selector__item-date">Ended: {{ formatDate(plan.end_date) }}</p>
+            </div>
+          </div>
+        </div>
+
+        <template #footer>
+          <div class="flex justify-end">
+            <UButton color="gray" variant="soft" @click="isOpen = false"> Close </UButton>
+          </div>
+        </template>
+      </UCard>
+    </UModal>
+  </div>
+</template>
+
+<style lang="css" scoped>
+@reference "tailwindcss";
+
+.plan-selector__loading,
+.plan-selector__empty {
+  @apply text-center py-8 text-gray-500;
+}
+
+.plan-selector__list {
+  @apply space-y-3 max-h-96 overflow-y-auto;
+}
+
+.plan-selector__item {
+  @apply p-4 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer transition-all hover:border-orange-500 hover:shadow-md;
+}
+
+.plan-selector__item--active {
+  @apply border-green-500 bg-green-50 dark:bg-green-900/20;
+}
+
+.plan-selector__item-header {
+  @apply flex justify-between items-center mb-2;
+}
+
+.plan-selector__item-title {
+  @apply text-lg font-semibold;
+}
+
+.plan-selector__item-details {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+}
+
+.plan-selector__item-date {
+  @apply text-xs;
+}
+</style>
