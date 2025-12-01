@@ -19,6 +19,7 @@ const currentWeek = ref(1)
 const selectedDate = ref(new Date().toISOString().split('T')[0])
 const exerciseLogs = ref({})
 const editingLog = ref(null)
+import { Icon } from '@iconify/vue'
 
 onMounted(async () => {
   await loadPlan()
@@ -275,12 +276,12 @@ async function handlePlanSelected() {
   <div class="workout-plan">
     <div class="workout-plan__header">
       <div class="workout-plan__header-content">
-        <h1 class="workout-plan__title">My Workout Plan</h1>
+        <h1 class="workout-plan__title">Workout Plan</h1>
       </div>
       <div class="workout-plan__header-actions">
         <PlanSelector v-if="plan" :current-plan-id="plan.id" @plan-selected="handlePlanSelected" />
         <button v-if="!plan" class="btn btn-primary btn-lg workout-plan__create-button" @click="createPlan">
-          <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+          <Icon icon="heroicons:plus-circle" class="btn-icon" />
           Create Plan
         </button>
       </div>

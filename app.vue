@@ -2,12 +2,7 @@
 useHead({
   title: 'Gym Training Tracker',
   meta: [{ name: 'description', content: 'Track your gym training progress' }],
-  script: [
-    {
-      src: 'https://code.iconify.design/3/3.1.0/iconify.min.js',
-      defer: true,
-    },
-  ],
+  script: [],
 })
 </script>
 

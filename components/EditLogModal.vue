@@ -28,6 +28,7 @@ watch(
   },
   { immediate: true }
 )
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
@@ -35,13 +36,13 @@ watch(
     <div class="modal-container">
       <div class="card" style="border: 2px solid #fed7aa">
         <div class="edit-log-modal__header">
-          <span class="iconify edit-log-modal__header-icon" data-icon="heroicons:pencil-square"></span>
+          <Icon icon="heroicons:pencil-square" class="edit-log-modal__header-icon" />
           <h3 class="edit-log-modal__header-title">Edit Log</h3>
         </div>
         <div v-if="editingLog" class="edit-log-modal__content">
           <div class="edit-log-modal__field">
             <label class="edit-log-modal__label">
-              <span class="iconify edit-log-modal__label-icon" data-icon="heroicons:calendar"></span> Date
+              <Icon icon="heroicons:calendar" class="edit-log-modal__label-icon" /> Date
             </label>
             <input
               v-model="editingLog.date"
@@ -52,7 +53,7 @@ watch(
 
           <div class="edit-log-modal__field">
             <label class="edit-log-modal__label">
-              <span class="iconify edit-log-modal__label-icon" data-icon="heroicons:hashtag"></span> Reps
+              <Icon icon="heroicons:hashtag" class="edit-log-modal__label-icon" /> Reps
             </label>
             <input
               v-model.number="editingLog.reps"
@@ -63,7 +64,7 @@ watch(
 
           <div class="edit-log-modal__field">
             <label class="edit-log-modal__label">
-              <span class="iconify edit-log-modal__label-icon" data-icon="heroicons:scale"></span> Weight (kg)
+              <Icon icon="heroicons:scale" class="edit-log-modal__label-icon" /> Weight (kg)
             </label>
             <input
               v-model.number="editingLog.weight"
@@ -75,11 +76,11 @@ watch(
         </div>
         <div class="edit-log-modal__footer card-footer">
           <button class="btn btn-primary" @click="emit('update', editingLog)">
-            <span class="iconify btn-icon" data-icon="heroicons:check"></span>
+            <Icon icon="heroicons:check" class="btn-icon" />
             Update
           </button>
           <button class="btn btn-red-soft" @click="emit('delete')">
-            <span class="iconify btn-icon" data-icon="heroicons:trash"></span>
+            <Icon icon="heroicons:trash" class="btn-icon" />
             Delete
           </button>
           <button class="btn btn-gray-soft" @click="isOpen = false">Cancel</button>

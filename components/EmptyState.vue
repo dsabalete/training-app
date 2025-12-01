@@ -19,20 +19,21 @@ defineProps({
 })
 
 const emit = defineEmits(['action'])
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
   <div class="card empty-state">
     <div class="empty-state__content">
       <div class="empty-state__icon-wrapper">
-        <span class="iconify empty-state__icon" data-icon="heroicons:fire"></span>
+        <Icon icon="heroicons:fire" class="empty-state__icon" />
       </div>
 
       <h2 class="empty-state__title">{{ title }}</h2>
 
       <p class="empty-state__message">{{ message }}</p>
       <button v-bind="$attrs" class="btn btn-primary btn-lg empty-state__button" @click="emit('action')">
-        <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+        <Icon icon="heroicons:plus-circle" class="btn-icon" />
         {{ buttonText }}
       </button>
     </div>

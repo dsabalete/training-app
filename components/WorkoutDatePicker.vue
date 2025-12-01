@@ -19,12 +19,13 @@ const selectedDate = computed({
     emit('change', value)
   },
 })
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
   <div class="workout-date-picker">
     <label class="workout-date-picker__label">
-      <span class="iconify workout-date-picker__icon" data-icon="heroicons:calendar"></span> Workout Date
+      <Icon icon="heroicons:calendar" class="workout-date-picker__icon" /> Workout Date
     </label>
     <input
       v-model="selectedDate"

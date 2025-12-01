@@ -32,6 +32,7 @@ function formatDate(dateString) {
   if (!dateString) return ''
   return new Date(dateString).toLocaleDateString()
 }
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
@@ -44,7 +45,7 @@ function formatDate(dateString) {
           <h4 class="exercise-card__title">{{ exercise.exercise_name }}</h4>
         </div>
         <button class="btn btn-primary btn-sm" @click="emit('toggle-log', exercise.id)">
-          <span class="iconify btn-icon" data-icon="heroicons:pencil-square"></span>
+          <Icon icon="heroicons:pencil-square" class="btn-icon" />
           {{ isLogging ? 'Hide' : 'Log' }}
         </button>
       </div>
@@ -52,11 +53,7 @@ function formatDate(dateString) {
     <div class="exercise-card__content">
       <div class="exercise-card__target">
         <span class="badge badge-orange font-semibold">
-          <span
-            class="iconify"
-            data-icon="heroicons:flag"
-            style="width: 0.75rem; height: 0.75rem; margin-right: 0.25rem"
-          ></span>
+          <Icon icon="heroicons:flag" style="width: 0.75rem; height: 0.75rem; margin-right: 0.25rem" />
           Target
         </span>
         <span class="exercise-card__target-text">
@@ -67,11 +64,7 @@ function formatDate(dateString) {
       <div v-if="logs && logs.length > 0" class="card exercise-card__logs">
         <div class="exercise-card__logs-header">
           <span class="badge badge-green badge-sm font-semibold">
-            <span
-              class="iconify"
-              data-icon="heroicons:check-circle"
-              style="width: 0.75rem; height: 0.75rem; margin-right: 0.25rem"
-            ></span>
+            <Icon icon="heroicons:check-circle" style="width: 0.75rem; height: 0.75rem; margin-right: 0.25rem" />
             Logged
           </span>
           <span class="exercise-card__logs-date">on {{ formatDate(selectedDate) }}</span>
@@ -84,7 +77,7 @@ function formatDate(dateString) {
               {{ log.weight }}kg
             </span>
             <button class="btn btn-primary-soft btn-sm" @click="emit('edit-log', log)">
-              <span class="iconify btn-icon" data-icon="heroicons:pencil"></span>
+              <Icon icon="heroicons:pencil" class="btn-icon" />
               Edit
             </button>
           </div>
@@ -92,8 +85,8 @@ function formatDate(dateString) {
       </div>
       <div v-if="isLogging" class="exercise-card__logging">
         <h5 class="exercise-card__logging-title">
-          <span class="iconify" data-icon="heroicons:pencil-square" style="width: 1rem; height: 1rem"></span> Log your
-          sets for {{ formatDate(selectedDate) }}
+          <Icon icon="heroicons:pencil-square" style="width: 1rem; height: 1rem" /> Log your sets for
+          {{ formatDate(selectedDate) }}
         </h5>
 
         <div class="exercise-card__sets">
@@ -127,7 +120,7 @@ function formatDate(dateString) {
           </div>
         </div>
         <button class="btn btn-primary btn-lg w-full exercise-card__save-button" @click="emit('save-log', exercise)">
-          <span class="iconify btn-icon" data-icon="heroicons:check"></span>
+          <Icon icon="heroicons:check" class="btn-icon" />
           Save Sets
         </button>
       </div>

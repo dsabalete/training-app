@@ -24,13 +24,14 @@ function formatDate(dateString) {
   if (!dateString) return ''
   return new Date(dateString).toLocaleDateString()
 }
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
   <div class="week-navigation">
     <div class="week-navigation__controls">
       <button class="btn btn-primary-soft" :disabled="currentWeek <= 1" @click="emit('navigate', -1)">
-        <span class="iconify btn-icon" data-icon="heroicons:chevron-left"></span>
+        <Icon icon="heroicons:chevron-left" class="btn-icon" />
         Previous
       </button>
       <div class="week-navigation__badge">
@@ -40,17 +41,17 @@ function formatDate(dateString) {
       </div>
       <button class="btn btn-primary-soft" @click="emit('navigate', 1)">
         Next
-        <span class="iconify btn-icon" data-icon="heroicons:chevron-right"></span>
+        <Icon icon="heroicons:chevron-right" class="btn-icon" />
       </button>
     </div>
 
     <div class="week-navigation__actions">
       <button v-if="currentWeek === planWeekNumber" class="btn btn-green" @click="emit('progress')">
-        <span class="iconify btn-icon" data-icon="heroicons:arrow-trending-up"></span>
+        <Icon icon="heroicons:arrow-trending-up" class="btn-icon" />
         Progress to Week {{ planWeekNumber + 1 }}
       </button>
       <button v-if="currentWeek !== planWeekNumber" class="btn btn-primary" @click="emit('goToCurrent')">
-        <span class="iconify btn-icon" data-icon="heroicons:home"></span>
+        <Icon icon="heroicons:home" class="btn-icon" />
         Go to Current Week
       </button>
     </div>

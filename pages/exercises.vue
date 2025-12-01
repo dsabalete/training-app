@@ -4,6 +4,7 @@ defineOptions({
 })
 
 const exercises = ref([])
+import { Icon } from '@iconify/vue'
 const showAddForm = ref(false)
 const newExercise = ref({
   name: '',
@@ -56,7 +57,7 @@ async function addExercise() {
         </h1>
       </div>
       <button class="btn btn-primary btn-lg" style="font-weight: bold" @click="showAddForm = true">
-        <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+        <Icon icon="heroicons:plus-circle" class="btn-icon" />
         Add Exercise
       </button>
     </div>
@@ -77,7 +78,7 @@ async function addExercise() {
           gap: 0.5rem;
         "
       >
-        <span class="iconify" data-icon="heroicons:plus-circle" style="width: 1.25rem; height: 1.25rem"></span>
+        <Icon icon="heroicons:plus-circle" style="width: 1.25rem; height: 1.25rem" />
         <h2 style="font-size: 1.125rem; font-weight: bold">Add New Exercise</h2>
       </div>
       <div class="space-y-4" style="padding-top: 1rem">
@@ -94,7 +95,7 @@ async function addExercise() {
               gap: 0.5rem;
             "
           >
-            <span class="iconify" data-icon="heroicons:fire" style="width: 1rem; height: 1rem; color: #f97316"></span>
+            <Icon icon="heroicons:fire" style="width: 1rem; height: 1rem; color: #f97316" />
             Exercise Name <span style="color: #ef4444">*</span>
           </label>
           <input
@@ -120,7 +121,7 @@ async function addExercise() {
       <div class="card-footer">
         <div class="flex gap-3">
           <button class="btn btn-primary btn-lg" style="font-weight: bold" @click="addExercise">
-            <span class="iconify btn-icon" data-icon="heroicons:check"></span>
+            <Icon icon="heroicons:check" class="btn-icon" />
             Add Exercise
           </button>
           <button class="btn btn-gray-soft" @click="showAddForm = false">Cancel</button>
@@ -140,7 +141,7 @@ async function addExercise() {
           gap: 0.5rem;
         "
       >
-        <span class="iconify" data-icon="heroicons:list-bullet" style="width: 1.25rem; height: 1.25rem"></span>
+        <Icon icon="heroicons:list-bullet" style="width: 1.25rem; height: 1.25rem" />
         <h2 style="font-size: 1.125rem; font-weight: bold">All Exercises</h2>
         <span
           class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white text-orange-600 ml-auto"
@@ -177,11 +178,7 @@ async function addExercise() {
                 flex-shrink: 0;
               "
             >
-              <span
-                class="iconify"
-                data-icon="heroicons:fire"
-                style="width: 1.25rem; height: 1.25rem; color: white"
-              ></span>
+              <Icon icon="heroicons:fire" style="width: 1.25rem; height: 1.25rem; color: white" />
             </div>
             <div style="flex: 1">
               <h3 style="font-weight: bold; color: #9a3412; font-size: 1.125rem">
@@ -218,12 +215,12 @@ async function addExercise() {
             justify-content: center;
           "
         >
-          <span class="iconify" data-icon="heroicons:fire" style="width: 2.5rem; height: 2.5rem; color: white"></span>
+          <Icon icon="heroicons:fire" style="width: 2.5rem; height: 2.5rem; color: white" />
         </div>
 
         <p style="color: #9a3412; font-weight: 500; margin-bottom: 1rem; font-size: 1.125rem">No exercises yet.</p>
         <button class="btn btn-primary btn-lg" style="font-weight: bold" @click="showAddForm = true">
-          <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+          <Icon icon="heroicons:plus-circle" class="btn-icon" />
           Add your first exercise
         </button>
       </div>

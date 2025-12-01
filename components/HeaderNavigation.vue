@@ -9,6 +9,8 @@ const navItems = [
   { to: '/progress', label: 'Progress', icon: 'i-heroicons-chart-bar' },
 ]
 
+import { Icon } from '@iconify/vue'
+
 const route = useRoute()
 </script>
 
@@ -16,7 +18,7 @@ const route = useRoute()
   <div class="header-navigation">
     <div class="app__logo-section">
       <div class="app__logo-wrapper">
-        <span class="iconify app__logo-icon" data-icon="heroicons:fire"></span>
+        <Icon icon="heroicons:fire" class="app__logo-icon" />
       </div>
 
       <h1 class="app__title">Gym Training Tracker</h1>
@@ -33,7 +35,7 @@ const route = useRoute()
           'app__nav-button--active': route.path === item.to,
         }"
       >
-        <span class="iconify btn-icon" :data-icon="item.icon"></span>
+        <Icon :icon="item.icon" class="btn-icon" />
         {{ item.label }}
       </NuxtLink>
     </div>

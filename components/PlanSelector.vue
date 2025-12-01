@@ -52,12 +52,14 @@ watch(isOpen, newValue => {
     loadPlans()
   }
 })
+
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
   <div class="plan-selector">
     <button class="btn btn-primary-soft" @click="isOpen = true">
-      <span class="iconify btn-icon" data-icon="heroicons:queue-list"></span>
+      <Icon icon="heroicons:queue-list" class="btn-icon" />
       Select Plan
     </button>
 

@@ -31,6 +31,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
@@ -43,7 +44,7 @@ const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
           <h3 class="workout-day__title">{{ day.name }}</h3>
         </div>
         <button class="btn btn-primary btn-sm" @click="emit('add-exercise', day)">
-          <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+          <Icon icon="heroicons:plus-circle" class="btn-icon" />
           Add Exercise
         </button>
       </div>
@@ -64,10 +65,10 @@ const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
     </div>
 
     <div v-else class="workout-day__empty">
-      <span class="iconify workout-day__empty-icon" data-icon="heroicons:fire"></span>
+      <Icon icon="heroicons:fire" class="workout-day__empty-icon" />
       <p class="workout-day__empty-text">No exercises yet.</p>
       <button class="btn btn-primary" @click="emit('add-exercise', day)">
-        <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+        <Icon icon="heroicons:plus-circle" class="btn-icon" />
         Add Exercise
       </button>
     </div>

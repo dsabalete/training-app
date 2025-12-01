@@ -60,6 +60,7 @@ function handleWeightChange(value) {
     target_weight: Number(value),
   })
 }
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
@@ -67,13 +68,13 @@ function handleWeightChange(value) {
     <div class="modal-container">
       <div class="card add-exercise-modal">
         <div class="card-header add-exercise-modal__header">
-          <span class="iconify add-exercise-modal__header-icon" data-icon="heroicons:plus-circle"></span>
+          <Icon icon="heroicons:plus-circle" class="add-exercise-modal__header-icon" />
           <h3 class="add-exercise-modal__header-title">Add Exercise to {{ selectedDay?.name }}</h3>
         </div>
         <div class="add-exercise-modal__content">
           <div class="add-exercise-modal__field">
             <label class="add-exercise-modal__label">
-              <span class="iconify add-exercise-modal__label-icon" data-icon="heroicons:fire"></span>
+              <Icon icon="heroicons:fire" class="add-exercise-modal__label-icon" />
               Exercise
               <span class="add-exercise-modal__required">*</span>
             </label>
@@ -124,7 +125,7 @@ function handleWeightChange(value) {
         </div>
         <div class="card-footer add-exercise-modal__footer">
           <button class="btn btn-primary btn-lg add-exercise-modal__add-button flex-1" @click="emit('add')">
-            <span class="iconify btn-icon" data-icon="heroicons:check"></span>
+            <Icon icon="heroicons:check" class="btn-icon" />
             Add
           </button>
           <button class="btn btn-gray-soft" @click="isVisible = false">Cancel</button>
