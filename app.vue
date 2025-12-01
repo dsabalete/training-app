@@ -15,4 +15,5 @@ useHead({
       <NuxtPage />
     </div>
   </div>
+  <ToastContainer />
 </template>
