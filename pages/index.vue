@@ -333,3 +333,50 @@ async function handlePlanSelected() {
     <EditLogModal :log="editingLog" @update="updateLog" @delete="deleteLog" @close="editingLog = null" />
   </div>
 </template>
+
+<style scoped>
+@reference "tailwindcss";
+
+/* Workout Plan Block */
+.workout-plan {
+  @apply space-y-6;
+}
+
+.workout-plan__header {
+  @apply flex justify-between items-center;
+}
+
+.workout-plan__header-content {
+  @apply flex items-center gap-3;
+}
+
+.workout-plan__header-actions {
+  @apply flex items-center gap-3;
+}
+
+.workout-plan__title {
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #ea580c, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.workout-plan__create-button {
+  font-weight: bold;
+}
+
+.workout-plan__content {
+  @apply space-y-6;
+}
+
+.workout-plan__card {
+  border: 2px solid #fed7aa;
+  background: linear-gradient(to bottom right, white, #fff7ed);
+}
+
+.workout-plan__grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+</style>

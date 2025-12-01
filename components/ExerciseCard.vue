@@ -148,7 +148,7 @@ import { Icon } from '@iconify/vue'
 }
 
 .exercise-card__title {
-  @apply font-bold text-orange-900;
+  @apply font-bold text-orange-900 dark:text-orange-100;
 }
 
 .exercise-card__content {
@@ -160,7 +160,7 @@ import { Icon } from '@iconify/vue'
 }
 
 .exercise-card__target-text {
-  @apply text-gray-700 font-medium;
+  @apply text-gray-700 dark:text-gray-300 font-medium;
 }
 
 .exercise-card__logs {
@@ -172,7 +172,7 @@ import { Icon } from '@iconify/vue'
 }
 
 .exercise-card__logs-date {
-  @apply text-emerald-900;
+  @apply text-emerald-900 dark:text-emerald-100;
 }
 
 .exercise-card__logs-list {
@@ -184,7 +184,7 @@ import { Icon } from '@iconify/vue'
 }
 
 .exercise-card__log-text {
-  @apply text-gray-800 font-medium;
+  @apply text-gray-800 dark:text-gray-200 font-medium;
 }
 
 .exercise-card__log-set {
