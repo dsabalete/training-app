@@ -3,12 +3,13 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "seed": "node scripts/seed.mjs"
+    "clean": "rm -rf node_modules .output .nuxt && bun install",
+    "build": "bun run nuxt build",
+    "dev": "bun run nuxt dev",
+    "generate": "bun run nuxt generate",
+    "preview": "bun run nuxt preview",
+    "postinstall": "bun run nuxt prepare",
+    "seed": "bun run scripts/seed.mjs"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.10.0",
@@ -17,9 +18,7 @@
     "better-sqlite3": "^12.4.1",
     "eslint": "^9.39.1",
     "nuxt": "^4.2.1",
-    "typescript": "^5.9.3",
-    "vue": "^3.5.22",
-    "vue-router": "^4.6.3"
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.3",

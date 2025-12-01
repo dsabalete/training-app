@@ -1,152 +1,146 @@
 <script setup>
 defineOptions({
-  name: "WorkoutPlanPage",
-});
+  name: 'WorkoutPlanPage',
+})
 
-const plan = ref(null);
-const exercises = ref([]);
-const loggingExercise = ref(null);
-const logData = ref({});
-const showAddExercise = ref(false);
-const selectedDay = ref(null);
+const plan = ref(null)
+const exercises = ref([])
+const loggingExercise = ref(null)
+const logData = ref({})
+const showAddExercise = ref(false)
+const selectedDay = ref(null)
 const newExercise = ref({
-  exercise_id: "",
+  exercise_id: '',
   target_sets: 3,
   target_reps: 10,
   target_weight: 0,
-});
-const currentWeek = ref(1);
-const selectedDate = ref(new Date().toISOString().split("T")[0]);
-const exerciseLogs = ref({});
-const editingLog = ref(null);
+})
+const currentWeek = ref(1)
+const selectedDate = ref(new Date().toISOString().split('T')[0])
+const exerciseLogs = ref({})
+const editingLog = ref(null)
 
 onMounted(async () => {
-  await loadPlan();
-  await loadExercises();
+  await loadPlan()
+  await loadExercises()
   if (plan.value) {
-    currentWeek.value = plan.value.week_number;
-    await loadLogsForDate();
+    currentWeek.value = plan.value.week_number
+    await loadLogsForDate()
   }
-});
+})
 
 async function loadPlan(weekNumber = null) {
   if (weekNumber) {
-    const data = await $fetch(`/api/plans/${weekNumber}`);
-    plan.value = data;
+    const data = await $fetch(`/api/plans/${weekNumber}`)
+    plan.value = data
     if (data) {
-      currentWeek.value = data.week_number;
+      currentWeek.value = data.week_number
     }
   } else {
-    const data = await $fetch("/api/plans/active");
-    plan.value = data;
+    const data = await $fetch('/api/plans/active')
+    plan.value = data
     if (data) {
-      currentWeek.value = data.week_number;
+      currentWeek.value = data.week_number
     }
   }
   if (plan.value) {
-    await loadLogsForDate();
+    await loadLogsForDate()
   }
 }
 
 async function loadExercises() {
   try {
-    const data = await $fetch("/api/exercises");
-    exercises.value = Array.isArray(data) ? data : [];
+    const data = await $fetch('/api/exercises')
+    exercises.value = Array.isArray(data) ? data : []
   } catch (error) {
-    console.error("Error loading exercises:", error);
-    exercises.value = [];
+    console.error('Error loading exercises:', error)
+    exercises.value = []
   }
 }
 
 async function navigateWeek(direction) {
-  const newWeek = currentWeek.value + direction;
-  if (newWeek < 1) return;
-  await loadPlan(newWeek);
+  const newWeek = currentWeek.value + direction
+  if (newWeek < 1) return
+  await loadPlan(newWeek)
 }
 
 async function goToCurrentWeek() {
-  await loadPlan();
+  await loadPlan()
 }
 
 async function loadLogsForDate() {
-  if (!plan.value || !selectedDate.value) return;
+  if (!plan.value || !selectedDate.value) return
 
-  exerciseLogs.value = {};
+  exerciseLogs.value = {}
 
   // Load logs for all exercises in the current plan
   for (const day of plan.value.days || []) {
     for (const exercise of day.exercises || []) {
       try {
-        const logs = await $fetch("/api/training-logs/by-date", {
+        const logs = await $fetch('/api/training-logs/by-date', {
           query: {
             workout_exercise_id: exercise.id,
             date: selectedDate.value,
           },
-        });
+        })
         if (logs && logs.length > 0) {
-          exerciseLogs.value[exercise.id] = logs;
+          exerciseLogs.value[exercise.id] = logs
         }
       } catch {
         // No logs for this exercise/date combination
-        exerciseLogs.value[exercise.id] = [];
+        exerciseLogs.value[exercise.id] = []
       }
     }
   }
 }
 
 async function createPlan() {
-  await $fetch("/api/plans", {
-    method: "POST",
+  await $fetch('/api/plans', {
+    method: 'POST',
     body: { week_number: 1 },
-  });
-  await loadPlan();
+  })
+  await loadPlan()
 }
 
 async function progressPlan() {
-  const toast = useToast();
-  const confirmed = await new Promise((resolve) => {
-    resolve(
-      confirm(
-        "Progress to the next week? This will create a new plan with increased targets."
-      )
-    );
-  });
+  const toast = useToast()
+  const confirmed = await new Promise(resolve => {
+    resolve(confirm('Progress to the next week? This will create a new plan with increased targets.'))
+  })
 
   if (confirmed) {
-    await $fetch("/api/plans/progress", {
-      method: "POST",
+    await $fetch('/api/plans/progress', {
+      method: 'POST',
       body: {},
-    });
-    await loadPlan();
-    toast.add({ title: "Plan progressed successfully!", color: "green" });
+    })
+    await loadPlan()
+    toast.add({ title: 'Plan progressed successfully!', color: 'green' })
   }
 }
 
 function toggleLog(exerciseId) {
   if (loggingExercise.value === exerciseId) {
-    loggingExercise.value = null;
+    loggingExercise.value = null
   } else {
-    loggingExercise.value = exerciseId;
+    loggingExercise.value = exerciseId
     if (!logData.value[exerciseId]) {
-      logData.value[exerciseId] = {};
+      logData.value[exerciseId] = {}
     }
     // Initialize all set objects for this exercise
-    const exercise = plan.value?.days
-      ?.flatMap((day) => day.exercises || [])
-      ?.find((ex) => ex.id === exerciseId);
+    const exercise = plan.value?.days?.flatMap(day => day.exercises || [])?.find(ex => ex.id === exerciseId)
     if (exercise) {
       // Pre-fill with existing logs if any
-      const existingLogs = exerciseLogs.value[exerciseId] || [];
+      const existingLogs = exerciseLogs.value[exerciseId] || []
       for (let i = 1; i <= exercise.target_sets; i++) {
-        const existingLog = existingLogs.find((log) => log.set_number === i);
+        const existingLog = existingLogs.find(log => log.set_number === i)
         if (existingLog) {
           logData.value[exerciseId][i] = {
             reps: existingLog.reps,
             weight: existingLog.weight,
             logId: existingLog.id,
-          };
+          }
         } else {
-          logData.value[exerciseId][i] = { reps: null, weight: null };
+          logData.value[exerciseId][i] = { reps: null, weight: null }
         }
       }
     }
@@ -154,28 +148,28 @@ function toggleLog(exerciseId) {
 }
 
 async function saveLog(exercise) {
-  const toast = useToast();
-  const sets = logData.value[exercise.id];
-  if (!sets) return;
+  const toast = useToast()
+  const sets = logData.value[exercise.id]
+  if (!sets) return
 
   for (const setNum in sets) {
-    const setData = sets[setNum];
+    const setData = sets[setNum]
     if (setData.reps && setData.weight !== undefined) {
       if (setData.logId) {
         // Update existing log
         await $fetch(`/api/training-logs/${setData.logId}`, {
-          method: "PUT",
+          method: 'PUT',
           body: {
             reps: setData.reps,
             weight: setData.weight,
             date: selectedDate.value,
             notes: null,
           },
-        });
+        })
       } else {
         // Create new log
-        await $fetch("/api/training-logs", {
-          method: "POST",
+        await $fetch('/api/training-logs', {
+          method: 'POST',
           body: {
             workout_exercise_id: exercise.id,
             set_number: parseInt(setNum),
@@ -183,148 +177,126 @@ async function saveLog(exercise) {
             weight: setData.weight,
             date: selectedDate.value,
           },
-        });
+        })
       }
     }
   }
 
-  logData.value[exercise.id] = {};
-  loggingExercise.value = null;
-  await loadLogsForDate();
-  toast.add({ title: "Sets logged successfully!", color: "green" });
+  logData.value[exercise.id] = {}
+  loggingExercise.value = null
+  await loadLogsForDate()
+  toast.add({ title: 'Sets logged successfully!', color: 'green' })
 }
 
 function editLog(log) {
-  editingLog.value = { ...log };
+  editingLog.value = { ...log }
 }
 
 async function updateLog() {
-  const toast = useToast();
-  if (!editingLog.value) return;
+  const toast = useToast()
+  if (!editingLog.value) return
 
   await $fetch(`/api/training-logs/${editingLog.value.id}`, {
-    method: "PUT",
+    method: 'PUT',
     body: {
       reps: editingLog.value.reps,
       weight: editingLog.value.weight,
       date: editingLog.value.date,
       notes: null,
     },
-  });
+  })
 
-  editingLog.value = null;
-  await loadLogsForDate();
-  toast.add({ title: "Log updated successfully!", color: "green" });
+  editingLog.value = null
+  await loadLogsForDate()
+  toast.add({ title: 'Log updated successfully!', color: 'green' })
 }
 
 async function deleteLog() {
-  const toast = useToast();
-  if (!editingLog.value) return;
+  const toast = useToast()
+  if (!editingLog.value) return
 
-  const confirmed = await new Promise((resolve) => {
-    resolve(confirm("Are you sure you want to delete this log?"));
-  });
+  const confirmed = await new Promise(resolve => {
+    resolve(confirm('Are you sure you want to delete this log?'))
+  })
 
   if (confirmed) {
     await $fetch(`/api/training-logs/${editingLog.value.id}`, {
-      method: "DELETE",
-    });
+      method: 'DELETE',
+    })
 
-    editingLog.value = null;
-    await loadLogsForDate();
-    toast.add({ title: "Log deleted successfully!", color: "green" });
+    editingLog.value = null
+    await loadLogsForDate()
+    toast.add({ title: 'Log deleted successfully!', color: 'green' })
   }
 }
 
 async function openAddExercise(day) {
-  selectedDay.value = day;
+  selectedDay.value = day
   // Ensure exercises are loaded before opening modal
   if (!exercises.value || exercises.value.length === 0) {
-    await loadExercises();
+    await loadExercises()
   }
-  showAddExercise.value = true;
+  showAddExercise.value = true
   newExercise.value = {
-    exercise_id: "",
+    exercise_id: '',
     target_sets: 3,
     target_reps: 10,
     target_weight: 0,
-  };
+  }
 }
 
 async function addExerciseToDay() {
-  const toast = useToast();
+  const toast = useToast()
   if (!newExercise.value.exercise_id) {
-    toast.add({ title: "Please select an exercise", color: "red" });
-    return;
+    toast.add({ title: 'Please select an exercise', color: 'red' })
+    return
   }
 
-  await $fetch("/api/workout-exercises", {
-    method: "POST",
+  await $fetch('/api/workout-exercises', {
+    method: 'POST',
     body: {
       workout_day_id: selectedDay.value.id,
       ...newExercise.value,
     },
-  });
+  })
 
-  showAddExercise.value = false;
-  await loadPlan(currentWeek.value);
-  toast.add({ title: "Exercise added successfully!", color: "green" });
+  showAddExercise.value = false
+  await loadPlan(currentWeek.value)
+  toast.add({ title: 'Exercise added successfully!', color: 'green' })
 }
 </script>
 
 <template>
-
-  <div class="space-y-6">
-
-    <div class="flex justify-between items-center">
-
-      <div class="flex items-center gap-3">
-
-        <h1
-          style="
-            font-size: 2.25rem;
-            font-weight: bold;
-            background: linear-gradient(to right, #ea580c, #f97316);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-          "
-        >
-           My Workout Plan
-        </h1>
-
+  <div class="workout-plan">
+    <div class="workout-plan__header">
+      <div class="workout-plan__header-content">
+        <h1 class="workout-plan__title">My Workout Plan</h1>
       </div>
-       <UButton
+      <UButton
         v-if="!plan"
         label="Create Plan"
         color="primary"
         size="lg"
         icon="i-heroicons-plus-circle"
-        style="font-weight: bold"
+        class="workout-plan__create-button"
         @click="createPlan"
       />
     </div>
 
-    <div v-if="plan" class="space-y-6">
-       <UCard
-        style="
-          border: 2px solid #fed7aa;
-          background: linear-gradient(to bottom right, white, #fff7ed);
-        "
-        > <WeekNavigation
+    <div v-if="plan" class="workout-plan__content">
+      <UCard class="workout-plan__card">
+        <WeekNavigation
           :current-week="currentWeek"
           :plan-week-number="plan.week_number"
           :start-date="plan.start_date"
           @navigate="navigateWeek"
           @progress="progressPlan"
           @go-to-current="goToCurrentWeek"
-        /> <WorkoutDatePicker
-          v-model="selectedDate"
-          @change="loadLogsForDate"
-        /> </UCard
-      >
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-         <WorkoutDay
+        />
+        <WorkoutDatePicker v-model="selectedDate" @change="loadLogsForDate" />
+      </UCard>
+      <div class="workout-plan__grid">
+        <WorkoutDay
           v-for="day in plan.days"
           :key="day.id"
           :day="day"
@@ -339,27 +311,21 @@ async function addExerciseToDay() {
           @edit-log="editLog"
         />
       </div>
-
     </div>
-     <EmptyState
+    <EmptyState
       v-else
       title="No Active Workout Plan"
       message="Create a plan to start tracking your workouts."
       button-text="Create Your First Plan"
       @action="createPlan"
-    /> <AddExerciseModal
+    />
+    <AddExerciseModal
       v-model:show="showAddExercise"
       v-model:new-exercise="newExercise"
       :selected-day="selectedDay"
       :exercises="exercises"
       @add="addExerciseToDay"
-    /> <EditLogModal
-      :log="editingLog"
-      @update="updateLog"
-      @delete="deleteLog"
-      @close="editingLog = null"
     />
+    <EditLogModal :log="editingLog" @update="updateLog" @delete="deleteLog" @close="editingLog = null" />
   </div>
-
 </template>
-
