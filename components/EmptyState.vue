@@ -22,26 +22,21 @@ const emit = defineEmits(['action'])
 </script>
 
 <template>
-  <UCard class="empty-state">
+  <div class="card empty-state">
     <div class="empty-state__content">
       <div class="empty-state__icon-wrapper">
-        <UIcon name="i-heroicons-fire" class="empty-state__icon" />
+        <span class="iconify empty-state__icon" data-icon="heroicons:fire"></span>
       </div>
 
       <h2 class="empty-state__title">{{ title }}</h2>
 
       <p class="empty-state__message">{{ message }}</p>
-      <UButton
-        v-bind="$attrs"
-        :label="buttonText"
-        color="primary"
-        size="xl"
-        icon="i-heroicons-plus-circle"
-        class="empty-state__button"
-        @click="emit('action')"
-      />
+      <button v-bind="$attrs" class="btn btn-primary btn-lg empty-state__button" @click="emit('action')">
+        <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+        {{ buttonText }}
+      </button>
     </div>
-  </UCard>
+  </div>
 </template>
 
 <style lang="css" scoped>

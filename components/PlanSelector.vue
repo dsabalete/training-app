@@ -30,17 +30,15 @@ async function loadPlans() {
 }
 
 async function selectPlan(plan) {
-  const toast = useToast()
   try {
     await $fetch(`/api/plans/${plan.id}/activate`, {
       method: 'POST',
     })
     emit('planSelected', plan)
     isOpen.value = false
-    toast.add({ title: `Switched to Week ${plan.week_number}`, color: 'green' })
   } catch (error) {
     console.error('Error activating plan:', error)
-    toast.add({ title: 'Failed to switch plan', color: 'red' })
+    alert('Failed to switch plan')
   }
 }
 
@@ -58,48 +56,53 @@ watch(isOpen, newValue => {
 
 <template>
   <div class="plan-selector">
-    <UButton icon="i-heroicons-queue-list" color="primary" variant="soft" @click="isOpen = true"> Select Plan </UButton>
+    <button class="btn btn-primary-soft" @click="isOpen = true">
+      <span class="iconify btn-icon" data-icon="heroicons:queue-list"></span>
+      Select Plan
+    </button>
 
-    <UModal v-model="isOpen">
-      <UCard>
-        <template #header>
-          <h3 class="text-xl font-bold">Select Workout Plan</h3>
-        </template>
+    <div v-if="isOpen" class="modal-backdrop" @click.self="isOpen = false">
+      <div class="modal-container">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-xl font-bold">Select Workout Plan</h3>
+          </div>
 
-        <div v-if="loading" class="plan-selector__loading">
-          <p>Loading plans...</p>
-        </div>
+          <div v-if="loading" class="plan-selector__loading">
+            <p>Loading plans...</p>
+          </div>
 
-        <div v-else-if="plans.length === 0" class="plan-selector__empty">
-          <p>No workout plans found. Create your first plan to get started!</p>
-        </div>
+          <div v-else-if="plans.length === 0" class="plan-selector__empty">
+            <p>No workout plans found. Create your first plan to get started!</p>
+          </div>
 
-        <div v-else class="plan-selector__list">
-          <div
-            v-for="plan in plans"
-            :key="plan.id"
-            class="plan-selector__item"
-            :class="{ 'plan-selector__item--active': plan.is_active }"
-            @click="selectPlan(plan)"
-          >
-            <div class="plan-selector__item-header">
-              <h4 class="plan-selector__item-title">Week {{ plan.week_number }}</h4>
-              <UBadge v-if="plan.is_active" color="green" variant="soft">Active</UBadge>
+          <div v-else class="plan-selector__list">
+            <div
+              v-for="plan in plans"
+              :key="plan.id"
+              class="plan-selector__item"
+              :class="{ 'plan-selector__item--active': plan.is_active }"
+              @click="selectPlan(plan)"
+            >
+              <div class="plan-selector__item-header">
+                <h4 class="plan-selector__item-title">Week {{ plan.week_number }}</h4>
+                <span v-if="plan.is_active" class="badge badge-green-soft">Active</span>
+              </div>
+              <div class="plan-selector__item-details">
+                <p class="plan-selector__item-date">Started: {{ formatDate(plan.start_date) }}</p>
+                <p v-if="plan.end_date" class="plan-selector__item-date">Ended: {{ formatDate(plan.end_date) }}</p>
+              </div>
             </div>
-            <div class="plan-selector__item-details">
-              <p class="plan-selector__item-date">Started: {{ formatDate(plan.start_date) }}</p>
-              <p v-if="plan.end_date" class="plan-selector__item-date">Ended: {{ formatDate(plan.end_date) }}</p>
+          </div>
+
+          <div class="card-footer">
+            <div class="flex justify-end">
+              <button class="btn btn-gray-soft" @click="isOpen = false">Close</button>
             </div>
           </div>
         </div>
-
-        <template #footer>
-          <div class="flex justify-end">
-            <UButton color="gray" variant="soft" @click="isOpen = false"> Close </UButton>
-          </div>
-        </template>
-      </UCard>
-    </UModal>
+      </div>
+    </div>
   </div>
 </template>
 

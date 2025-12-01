@@ -35,39 +35,45 @@ function formatDate(dateString) {
 </script>
 
 <template>
-  <UCard class="exercise-card">
-    <template #header>
+  <div class="card exercise-card">
+    <div class="card-header">
       <div class="exercise-card__header">
         <div class="exercise-card__title-group">
           <div class="exercise-card__indicator"></div>
 
           <h4 class="exercise-card__title">{{ exercise.exercise_name }}</h4>
         </div>
-        <UButton
-          :label="isLogging ? 'Hide' : 'Log'"
-          color="primary"
-          variant="solid"
-          size="xs"
-          icon="i-heroicons-pencil-square"
-          @click="emit('toggle-log', exercise.id)"
-        />
+        <button class="btn btn-primary btn-sm" @click="emit('toggle-log', exercise.id)">
+          <span class="iconify btn-icon" data-icon="heroicons:pencil-square"></span>
+          {{ isLogging ? 'Hide' : 'Log' }}
+        </button>
       </div>
-    </template>
+    </div>
     <div class="exercise-card__content">
       <div class="exercise-card__target">
-        <UBadge color="orange" variant="solid" class="font-semibold">
-          <UIcon name="i-heroicons-flag" class="w-3 h-3 mr-1" /> Target
-        </UBadge>
+        <span class="badge badge-orange font-semibold">
+          <span
+            class="iconify"
+            data-icon="heroicons:flag"
+            style="width: 0.75rem; height: 0.75rem; margin-right: 0.25rem"
+          ></span>
+          Target
+        </span>
         <span class="exercise-card__target-text">
           {{ exercise.target_sets }} sets × {{ exercise.target_reps }} reps @ {{ exercise.target_weight }}kg
         </span>
       </div>
       <!-- Show existing logs for selected date -->
-      <UCard v-if="logs && logs.length > 0" class="exercise-card__logs">
+      <div v-if="logs && logs.length > 0" class="card exercise-card__logs">
         <div class="exercise-card__logs-header">
-          <UBadge color="green" variant="solid" size="sm" class="font-semibold">
-            <UIcon name="i-heroicons-check-circle" class="w-3 h-3 mr-1" /> Logged
-          </UBadge>
+          <span class="badge badge-green badge-sm font-semibold">
+            <span
+              class="iconify"
+              data-icon="heroicons:check-circle"
+              style="width: 0.75rem; height: 0.75rem; margin-right: 0.25rem"
+            ></span>
+            Logged
+          </span>
           <span class="exercise-card__logs-date">on {{ formatDate(selectedDate) }}</span>
         </div>
 
@@ -77,66 +83,56 @@ function formatDate(dateString) {
               <span class="exercise-card__log-set">Set {{ log.set_number }}:</span> {{ log.reps }} reps @
               {{ log.weight }}kg
             </span>
-            <UButton
-              label="Edit"
-              color="primary"
-              variant="ghost"
-              size="xs"
-              icon="i-heroicons-pencil"
-              @click="emit('edit-log', log)"
-            />
+            <button class="btn btn-primary-soft btn-sm" @click="emit('edit-log', log)">
+              <span class="iconify btn-icon" data-icon="heroicons:pencil"></span>
+              Edit
+            </button>
           </div>
         </div>
-      </UCard>
+      </div>
       <div v-if="isLogging" class="exercise-card__logging">
         <h5 class="exercise-card__logging-title">
-          <UIcon name="i-heroicons-pencil-square" class="w-4 h-4" /> Log your sets for {{ formatDate(selectedDate) }}
+          <span class="iconify" data-icon="heroicons:pencil-square" style="width: 1rem; height: 1rem"></span> Log your
+          sets for {{ formatDate(selectedDate) }}
         </h5>
 
         <div class="exercise-card__sets">
           <div v-for="setNum in exercise.target_sets" :key="setNum" class="exercise-card__set">
             <span class="exercise-card__set-label">Set {{ setNum }}:</span>
-            <UInput
-              :model-value="logData[setNum]?.reps"
+            <input
+              :value="logData[setNum]?.reps"
               type="number"
               placeholder="Reps"
-              color="primary"
-              class="flex-1"
-              @update:model-value="
-                value => {
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              @input="
+                e => {
                   if (!logData[setNum]) logData[setNum] = {}
-                  logData[setNum].reps = value ? Number(value) : null
+                  logData[setNum].reps = e.target.value ? Number(e.target.value) : null
                 }
               "
             />
-            <UInput
-              :model-value="logData[setNum]?.weight"
+            <input
+              :value="logData[setNum]?.weight"
               type="number"
               step="0.5"
               placeholder="Weight (kg)"
-              color="primary"
-              class="flex-1"
-              @update:model-value="
-                value => {
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              @input="
+                e => {
                   if (!logData[setNum]) logData[setNum] = {}
-                  logData[setNum].weight = value ? Number(value) : null
+                  logData[setNum].weight = e.target.value ? Number(e.target.value) : null
                 }
               "
             />
           </div>
         </div>
-        <UButton
-          label="Save Sets"
-          color="primary"
-          block
-          icon="i-heroicons-check"
-          size="lg"
-          class="exercise-card__save-button"
-          @click="emit('save-log', exercise)"
-        />
+        <button class="btn btn-primary btn-lg w-full exercise-card__save-button" @click="emit('save-log', exercise)">
+          <span class="iconify btn-icon" data-icon="heroicons:check"></span>
+          Save Sets
+        </button>
       </div>
     </div>
-  </UCard>
+  </div>
 </template>
 
 <style lang="css" scoped>

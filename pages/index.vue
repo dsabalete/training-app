@@ -279,20 +279,15 @@ async function handlePlanSelected() {
       </div>
       <div class="workout-plan__header-actions">
         <PlanSelector v-if="plan" :current-plan-id="plan.id" @plan-selected="handlePlanSelected" />
-        <UButton
-          v-if="!plan"
-          label="Create Plan"
-          color="primary"
-          size="lg"
-          icon="i-heroicons-plus-circle"
-          class="workout-plan__create-button"
-          @click="createPlan"
-        />
+        <button v-if="!plan" class="btn btn-primary btn-lg workout-plan__create-button" @click="createPlan">
+          <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+          Create Plan
+        </button>
       </div>
     </div>
 
     <div v-if="plan" class="workout-plan__content">
-      <UCard class="workout-plan__card">
+      <div class="card workout-plan__card">
         <WeekNavigation
           :current-week="currentWeek"
           :plan-week-number="plan.week_number"
@@ -302,7 +297,7 @@ async function handlePlanSelected() {
           @go-to-current="goToCurrentWeek"
         />
         <WorkoutDatePicker v-model="selectedDate" @change="loadLogsForDate" />
-      </UCard>
+      </div>
       <div class="workout-plan__grid">
         <WorkoutDay
           v-for="day in plan.days"

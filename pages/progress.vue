@@ -14,17 +14,15 @@ defineOptions({
 
       <h1 class="progress-page__title">Progress Tracker</h1>
     </div>
-    <UCard class="progress-page__card">
-      <template #header>
-        <div class="progress-page__card-header">
-          <UIcon name="i-heroicons-chart-bar-square" class="progress-page__card-header-icon" />
-          <h2 class="progress-page__card-header-title">Coming Soon</h2>
-        </div>
-      </template>
+    <div class="card progress-page__card">
+      <div class="progress-page__card-header">
+        <span class="iconify progress-page__card-header-icon" data-icon="heroicons:chart-bar-square"></span>
+        <h2 class="progress-page__card-header-title">Coming Soon</h2>
+      </div>
       <div class="progress-page__card-content">
         <div class="progress-page__icon-section">
           <div class="progress-page__icon-wrapper">
-            <UIcon name="i-heroicons-chart-bar" class="progress-page__icon" />
+            <span class="iconify progress-page__icon" data-icon="heroicons:chart-bar"></span>
           </div>
         </div>
 
@@ -39,7 +37,7 @@ defineOptions({
           </p>
         </div>
       </div>
-    </UCard>
+    </div>
   </div>
 </template>
 

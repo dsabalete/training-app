@@ -34,24 +34,20 @@ const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
 </script>
 
 <template>
-  <UCard class="workout-day">
-    <template #header>
+  <div class="card workout-day">
+    <div class="card-header">
       <div class="workout-day__header">
         <div class="workout-day__title-group">
           <div class="workout-day__indicator"></div>
 
           <h3 class="workout-day__title">{{ day.name }}</h3>
         </div>
-        <UButton
-          label="Add Exercise"
-          color="primary"
-          variant="solid"
-          size="sm"
-          icon="i-heroicons-plus-circle"
-          @click="emit('add-exercise', day)"
-        />
+        <button class="btn btn-primary btn-sm" @click="emit('add-exercise', day)">
+          <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+          Add Exercise
+        </button>
       </div>
-    </template>
+    </div>
     <div v-if="exercises && exercises.length > 0" class="workout-day__exercises">
       <ExerciseCard
         v-for="exercise in exercises"
@@ -68,17 +64,14 @@ const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
     </div>
 
     <div v-else class="workout-day__empty">
-      <UIcon name="i-heroicons-fire" class="workout-day__empty-icon" />
+      <span class="iconify workout-day__empty-icon" data-icon="heroicons:fire"></span>
       <p class="workout-day__empty-text">No exercises yet.</p>
-      <UButton
-        label="Add Exercise"
-        color="primary"
-        variant="solid"
-        icon="i-heroicons-plus-circle"
-        @click="emit('add-exercise', day)"
-      />
+      <button class="btn btn-primary" @click="emit('add-exercise', day)">
+        <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+        Add Exercise
+      </button>
     </div>
-  </UCard>
+  </div>
 </template>
 
 <style lang="css" scoped>

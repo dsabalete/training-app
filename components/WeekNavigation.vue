@@ -29,42 +29,30 @@ function formatDate(dateString) {
 <template>
   <div class="week-navigation">
     <div class="week-navigation__controls">
-      <UButton
-        icon="i-heroicons-chevron-left"
-        color="primary"
-        variant="soft"
-        :disabled="currentWeek <= 1"
-        @click="emit('navigate', -1)"
-      >
+      <button class="btn btn-primary-soft" :disabled="currentWeek <= 1" @click="emit('navigate', -1)">
+        <span class="iconify btn-icon" data-icon="heroicons:chevron-left"></span>
         Previous
-      </UButton>
+      </button>
       <div class="week-navigation__badge">
         <h2 class="week-navigation__week">Week {{ currentWeek }}</h2>
 
         <p class="week-navigation__date">Started: {{ formatDate(startDate) }}</p>
       </div>
-      <UButton icon="i-heroicons-chevron-right" trailing color="primary" variant="soft" @click="emit('navigate', 1)">
+      <button class="btn btn-primary-soft" @click="emit('navigate', 1)">
         Next
-      </UButton>
+        <span class="iconify btn-icon" data-icon="heroicons:chevron-right"></span>
+      </button>
     </div>
 
     <div class="week-navigation__actions">
-      <UButton
-        v-if="currentWeek === planWeekNumber"
-        color="green"
-        icon="i-heroicons-arrow-trending-up"
-        @click="emit('progress')"
-      >
+      <button v-if="currentWeek === planWeekNumber" class="btn btn-green" @click="emit('progress')">
+        <span class="iconify btn-icon" data-icon="heroicons:arrow-trending-up"></span>
         Progress to Week {{ planWeekNumber + 1 }}
-      </UButton>
-      <UButton
-        v-if="currentWeek !== planWeekNumber"
-        color="primary"
-        icon="i-heroicons-home"
-        @click="emit('goToCurrent')"
-      >
+      </button>
+      <button v-if="currentWeek !== planWeekNumber" class="btn btn-primary" @click="emit('goToCurrent')">
+        <span class="iconify btn-icon" data-icon="heroicons:home"></span>
         Go to Current Week
-      </UButton>
+      </button>
     </div>
   </div>
 </template>

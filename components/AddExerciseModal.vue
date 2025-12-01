@@ -63,84 +63,75 @@ function handleWeightChange(value) {
 </script>
 
 <template>
-  <UModal
-    v-model="isVisible"
-    :ui="{ width: 'max-w-md' }"
-    :title="`Add Exercise to ${selectedDay?.name || 'Day'}`"
-    description="Select an exercise and configure sets, reps, and weight targets for this workout day."
-  >
-    <UCard class="add-exercise-modal">
-      <template #header>
-        <div class="add-exercise-modal__header">
-          <UIcon name="i-heroicons-plus-circle" class="add-exercise-modal__header-icon" />
+  <div v-if="isVisible" class="modal-backdrop" @click.self="isVisible = false">
+    <div class="modal-container">
+      <div class="card add-exercise-modal">
+        <div class="card-header add-exercise-modal__header">
+          <span class="iconify add-exercise-modal__header-icon" data-icon="heroicons:plus-circle"></span>
           <h3 class="add-exercise-modal__header-title">Add Exercise to {{ selectedDay?.name }}</h3>
         </div>
-      </template>
-      <div class="add-exercise-modal__content">
-        <div class="add-exercise-modal__field">
-          <label class="add-exercise-modal__label">
-            <UIcon name="i-heroicons-fire" class="add-exercise-modal__label-icon" /> Exercise
-            <span class="add-exercise-modal__required">*</span>
-          </label>
-          <USelect
-            :model-value="newExercise.exercise_id"
-            :options="exerciseOptions"
-            placeholder="Select an exercise"
-            searchable
-            color="primary"
-            @update:model-value="handleExerciseIdChange"
-          />
+        <div class="add-exercise-modal__content">
+          <div class="add-exercise-modal__field">
+            <label class="add-exercise-modal__label">
+              <span class="iconify add-exercise-modal__label-icon" data-icon="heroicons:fire"></span>
+              Exercise
+              <span class="add-exercise-modal__required">*</span>
+            </label>
+            <select
+              :value="newExercise.exercise_id"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              @change="handleExerciseIdChange($event.target.value)"
+            >
+              <option value="">Select an exercise</option>
+              <option v-for="option in exerciseOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="add-exercise-modal__targets">
+            <div class="add-exercise-modal__target">
+              <label class="add-exercise-modal__target-label">Sets</label>
+              <input
+                :value="newExercise.target_sets"
+                type="number"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                @input="handleSetsChange($event.target.value)"
+              />
+            </div>
+
+            <div class="add-exercise-modal__target">
+              <label class="add-exercise-modal__target-label">Reps</label>
+              <input
+                :value="newExercise.target_reps"
+                type="number"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                @input="handleRepsChange($event.target.value)"
+              />
+            </div>
+
+            <div class="add-exercise-modal__target">
+              <label class="add-exercise-modal__target-label">Weight (kg)</label>
+              <input
+                :value="newExercise.target_weight"
+                type="number"
+                step="0.5"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                @input="handleWeightChange($event.target.value)"
+              />
+            </div>
+          </div>
         </div>
-
-        <div class="add-exercise-modal__targets">
-          <div class="add-exercise-modal__target">
-            <label class="add-exercise-modal__target-label">Sets</label>
-            <UInput
-              :model-value="newExercise.target_sets"
-              type="number"
-              color="primary"
-              @update:model-value="handleSetsChange"
-            />
-          </div>
-
-          <div class="add-exercise-modal__target">
-            <label class="add-exercise-modal__target-label">Reps</label>
-            <UInput
-              :model-value="newExercise.target_reps"
-              type="number"
-              color="primary"
-              @update:model-value="handleRepsChange"
-            />
-          </div>
-
-          <div class="add-exercise-modal__target">
-            <label class="add-exercise-modal__target-label">Weight (kg)</label>
-            <UInput
-              :model-value="newExercise.target_weight"
-              type="number"
-              step="0.5"
-              color="primary"
-              @update:model-value="handleWeightChange"
-            />
-          </div>
+        <div class="card-footer add-exercise-modal__footer">
+          <button class="btn btn-primary btn-lg add-exercise-modal__add-button flex-1" @click="emit('add')">
+            <span class="iconify btn-icon" data-icon="heroicons:check"></span>
+            Add
+          </button>
+          <button class="btn btn-gray-soft" @click="isVisible = false">Cancel</button>
         </div>
       </div>
-      <template #footer>
-        <div class="add-exercise-modal__footer">
-          <UButton
-            label="Add"
-            color="primary"
-            icon="i-heroicons-check"
-            block
-            size="lg"
-            class="add-exercise-modal__add-button"
-            @click="emit('add')"
-          />
-          <UButton label="Cancel" color="gray" variant="soft" @click="isVisible = false" />
-        </div>
-      </template>
-    </UCard>
-  </UModal>
+    </div>
+  </div>
 </template>
 
 <style lang="css" scoped>

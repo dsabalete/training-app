@@ -1,52 +1,47 @@
 <script setup>
 defineOptions({
-  name: "ExercisesPage",
-});
+  name: 'ExercisesPage',
+})
 
-const exercises = ref([]);
-const showAddForm = ref(false);
+const exercises = ref([])
+const showAddForm = ref(false)
 const newExercise = ref({
-  name: "",
-  description: "",
-});
-
-const toast = useToast();
+  name: '',
+  description: '',
+})
 
 onMounted(async () => {
-  await loadExercises();
-});
+  await loadExercises()
+})
 
 async function loadExercises() {
-  const data = await $fetch("/api/exercises");
-  exercises.value = data;
+  const data = await $fetch('/api/exercises')
+  exercises.value = data
 }
 
 async function addExercise() {
   if (!newExercise.value.name) {
-    toast.add({ title: "Please enter an exercise name", color: "red" });
-    return;
+    console.error('Please enter an exercise name')
+    alert('Please enter an exercise name')
+    return
   }
 
-  await $fetch("/api/exercises", {
-    method: "POST",
+  await $fetch('/api/exercises', {
+    method: 'POST',
     body: newExercise.value,
-  });
+  })
 
-  newExercise.value = { name: "", description: "" };
-  showAddForm.value = false;
-  await loadExercises();
-  toast.add({ title: "Exercise added successfully!", color: "green" });
+  newExercise.value = { name: '', description: '' }
+  showAddForm.value = false
+  await loadExercises()
+  console.log('Exercise added successfully!')
 }
 </script>
 
 <template>
-
   <div class="space-y-6">
-
     <div class="flex justify-between items-center">
-
       <div class="flex items-center gap-3">
-
         <h1
           style="
             font-size: 2.25rem;
@@ -57,51 +52,37 @@ async function addExercise() {
             background-clip: text;
           "
         >
-           Exercise Library
+          Exercise Library
         </h1>
-
       </div>
-       <UButton
-        label="Add Exercise"
-        color="primary"
-        size="lg"
-        icon="i-heroicons-plus-circle"
-        style="font-weight: bold"
-        @click="showAddForm = true"
-      />
+      <button class="btn btn-primary btn-lg" style="font-weight: bold" @click="showAddForm = true">
+        <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+        Add Exercise
+      </button>
     </div>
-     <UCard
+    <div
       v-if="showAddForm"
-      style="
-        border: 2px solid #fed7aa;
-        background: linear-gradient(to bottom right, white, #fff7ed);
-      "
-      > <template #header
-        >
-        <div
-          style="
-            background: linear-gradient(to right, #f97316, #ea580c);
-            color: white;
-            padding: 1rem;
-            margin: -1.5rem -1.5rem 0 -1.5rem;
-            border-radius: 0.5rem 0.5rem 0 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-          "
-        >
-           <UIcon name="i-heroicons-plus-circle" class="w-5 h-5" />
-          <h2 style="font-size: 1.125rem; font-weight: bold">
-             Add New Exercise
-          </h2>
-
-        </div>
-         </template
+      class="card"
+      style="border: 2px solid #fed7aa; background: linear-gradient(to bottom right, white, #fff7ed)"
+    >
+      <div
+        style="
+          background: linear-gradient(to right, #f97316, #ea580c);
+          color: white;
+          padding: 1rem;
+          margin: -1.5rem -1.5rem 0 -1.5rem;
+          border-radius: 0.5rem 0.5rem 0 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        "
       >
+        <span class="iconify" data-icon="heroicons:plus-circle" style="width: 1.25rem; height: 1.25rem"></span>
+        <h2 style="font-size: 1.125rem; font-weight: bold">Add New Exercise</h2>
+      </div>
       <div class="space-y-4" style="padding-top: 1rem">
-
         <div>
-           <label
+          <label
             style="
               display: block;
               font-size: 0.875rem;
@@ -112,105 +93,78 @@ async function addExercise() {
               align-items: center;
               gap: 0.5rem;
             "
-            > <UIcon
-              name="i-heroicons-fire"
-              class="w-4 h-4"
-              style="color: #f97316"
-            /> Exercise Name <span style="color: #ef4444">*</span> </label
-          > <UInput
+          >
+            <span class="iconify" data-icon="heroicons:fire" style="width: 1rem; height: 1rem; color: #f97316"></span>
+            Exercise Name <span style="color: #ef4444">*</span>
+          </label>
+          <input
             v-model="newExercise.name"
             type="text"
             placeholder="e.g., Bench Press"
-            icon="i-heroicons-fire"
-            color="primary"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
           />
         </div>
 
         <div>
-           <label
-            style="
-              display: block;
-              font-size: 0.875rem;
-              font-weight: 600;
-              color: #9a3412;
-              margin-bottom: 0.5rem;
-            "
+          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #9a3412; margin-bottom: 0.5rem"
             >Description (optional)</label
-          > <UTextarea
+          >
+          <textarea
             v-model="newExercise.description"
             placeholder="Exercise notes or instructions"
-            :rows="3"
-            color="primary"
-          />
+            rows="3"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+          ></textarea>
         </div>
-
       </div>
-       <template #footer
-        >
+      <div class="card-footer">
         <div class="flex gap-3">
-           <UButton
-            label="Add Exercise"
-            color="primary"
-            icon="i-heroicons-check"
-            size="lg"
-            style="font-weight: bold"
-            @click="addExercise"
-          /> <UButton
-            label="Cancel"
-            color="gray"
-            variant="soft"
-            @click="showAddForm = false"
-          />
+          <button class="btn btn-primary btn-lg" style="font-weight: bold" @click="addExercise">
+            <span class="iconify btn-icon" data-icon="heroicons:check"></span>
+            Add Exercise
+          </button>
+          <button class="btn btn-gray-soft" @click="showAddForm = false">Cancel</button>
         </div>
-         </template
-      > </UCard
-    > <UCard
-      style="
-        border: 2px solid #fed7aa;
-        background: linear-gradient(to bottom right, white, #fff7ed);
-      "
-      > <template #header
-        >
-        <div
-          style="
-            background: linear-gradient(to right, #f97316, #ea580c);
-            color: white;
-            padding: 1rem;
-            margin: -1.5rem -1.5rem 0 -1.5rem;
-            border-radius: 0.5rem 0.5rem 0 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-          "
-        >
-           <UIcon name="i-heroicons-list-bullet" class="w-5 h-5" />
-          <h2 style="font-size: 1.125rem; font-weight: bold">All Exercises</h2>
-           <UBadge
-            color="white"
-            variant="solid"
-            style="margin-left: auto; color: #ea580c; font-weight: bold"
-            > {{ exercises.length }} exercises </UBadge
-          >
-        </div>
-         </template
+      </div>
+    </div>
+    <div class="card" style="border: 2px solid #fed7aa; background: linear-gradient(to bottom right, white, #fff7ed)">
+      <div
+        style="
+          background: linear-gradient(to right, #f97316, #ea580c);
+          color: white;
+          padding: 1rem;
+          margin: -1.5rem -1.5rem 0 -1.5rem;
+          border-radius: 0.5rem 0.5rem 0 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        "
       >
+        <span class="iconify" data-icon="heroicons:list-bullet" style="width: 1.25rem; height: 1.25rem"></span>
+        <h2 style="font-size: 1.125rem; font-weight: bold">All Exercises</h2>
+        <span
+          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white text-orange-600 ml-auto"
+          style="font-weight: bold"
+        >
+          {{ exercises.length }} exercises
+        </span>
+      </div>
       <div v-if="exercises.length > 0" style="border-top: 1px solid #fed7aa">
-
         <div
           v-for="exercise in exercises"
           :key="exercise.id"
-          style="
-            padding: 1rem;
-            transition: background-color 0.2s;
-            border-left: 4px solid transparent;
-          "
+          style="padding: 1rem; transition: background-color 0.2s; border-left: 4px solid transparent"
           class="hover:border-orange-400"
-          onmouseover="this.style.backgroundColor='#fff7ed'; this.style.borderLeftColor='#fb923c';"
-          onmouseout="this.style.backgroundColor=''; this.style.borderLeftColor='transparent';"
+          onmouseover="
+            this.style.backgroundColor = '#fff7ed'
+            this.style.borderLeftColor = '#fb923c'
+          "
+          onmouseout="
+            this.style.backgroundColor = ''
+            this.style.borderLeftColor = 'transparent'
+          "
         >
-
           <div class="flex items-start gap-3">
-
             <div
               style="
                 width: 2.5rem;
@@ -223,34 +177,23 @@ async function addExercise() {
                 flex-shrink: 0;
               "
             >
-               <UIcon
-                name="i-heroicons-fire"
-                class="w-5 h-5"
-                style="color: white"
-              />
+              <span
+                class="iconify"
+                data-icon="heroicons:fire"
+                style="width: 1.25rem; height: 1.25rem; color: white"
+              ></span>
             </div>
-
             <div style="flex: 1">
-
-              <h3
-                style="font-weight: bold; color: #9a3412; font-size: 1.125rem"
-              >
-                 {{ exercise.name }}
+              <h3 style="font-weight: bold; color: #9a3412; font-size: 1.125rem">
+                {{ exercise.name }}
               </h3>
 
-              <p
-                v-if="exercise.description"
-                style="font-size: 0.875rem; color: #374151; margin-top: 0.25rem"
-              >
-                 {{ exercise.description }}
+              <p v-if="exercise.description" style="font-size: 0.875rem; color: #374151; margin-top: 0.25rem">
+                {{ exercise.description }}
               </p>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
 
       <div
@@ -263,7 +206,6 @@ async function addExercise() {
           border: 2px dashed #fdba74;
         "
       >
-
         <div
           style="
             width: 5rem;
@@ -276,36 +218,15 @@ async function addExercise() {
             justify-content: center;
           "
         >
-           <UIcon
-            name="i-heroicons-fire"
-            class="w-10 h-10"
-            style="color: white"
-          />
+          <span class="iconify" data-icon="heroicons:fire" style="width: 2.5rem; height: 2.5rem; color: white"></span>
         </div>
 
-        <p
-          style="
-            color: #9a3412;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            font-size: 1.125rem;
-          "
-        >
-           No exercises yet.
-        </p>
-         <UButton
-          label="Add your first exercise"
-          color="primary"
-          variant="solid"
-          size="lg"
-          icon="i-heroicons-plus-circle"
-          style="font-weight: bold"
-          @click="showAddForm = true"
-        />
+        <p style="color: #9a3412; font-weight: 500; margin-bottom: 1rem; font-size: 1.125rem">No exercises yet.</p>
+        <button class="btn btn-primary btn-lg" style="font-weight: bold" @click="showAddForm = true">
+          <span class="iconify btn-icon" data-icon="heroicons:plus-circle"></span>
+          Add your first exercise
+        </button>
       </div>
-       </UCard
-    >
+    </div>
   </div>
-
 </template>
-

@@ -24,14 +24,12 @@ const selectedDate = computed({
 <template>
   <div class="workout-date-picker">
     <label class="workout-date-picker__label">
-      <UIcon name="i-heroicons-calendar" class="workout-date-picker__icon" /> Workout Date
+      <span class="iconify workout-date-picker__icon" data-icon="heroicons:calendar"></span> Workout Date
     </label>
-    <UInput
+    <input
       v-model="selectedDate"
       type="date"
-      icon="i-heroicons-calendar"
-      color="primary"
-      class="workout-date-picker__input"
+      class="workout-date-picker__input w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
     />
   </div>
 </template>

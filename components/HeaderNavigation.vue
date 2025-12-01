@@ -16,24 +16,26 @@ const route = useRoute()
   <div class="header-navigation">
     <div class="app__logo-section">
       <div class="app__logo-wrapper">
-        <UIcon name="i-heroicons-fire" class="app__logo-icon" />
+        <span class="iconify app__logo-icon" data-icon="heroicons:fire"></span>
       </div>
 
       <h1 class="app__title">Gym Training Tracker</h1>
     </div>
 
     <div class="app__nav">
-      <UButton
+      <NuxtLink
         v-for="item in navItems"
         :key="item.to"
         :to="item.to"
-        :label="item.label"
-        :icon="item.icon"
-        :color="route.path === item.to ? 'white' : 'white'"
-        :variant="route.path === item.to ? 'solid' : 'ghost'"
-        size="sm"
-        :class="['app__nav-button', { 'app__nav-button--active': route.path === item.to }]"
-      />
+        class="btn btn-sm app__nav-button"
+        :class="{
+          'btn-gray-soft': route.path !== item.to,
+          'app__nav-button--active': route.path === item.to,
+        }"
+      >
+        <span class="iconify btn-icon" :data-icon="item.icon"></span>
+        {{ item.label }}
+      </NuxtLink>
     </div>
   </div>
 </template>
