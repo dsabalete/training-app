@@ -26,7 +26,7 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['toggle-log', 'save-log', 'edit-log'])
+const emit = defineEmits(['toggle-log', 'save-log', 'edit-log', 'edit-target'])
 
 function formatDate(dateString) {
   if (!dateString) return ''
@@ -59,6 +59,12 @@ import { Icon } from '@iconify/vue'
         <span class="exercise-card__target-text">
           {{ exercise.target_sets }} sets × {{ exercise.target_reps }} reps @ {{ exercise.target_weight }}kg
         </span>
+        <button
+          class="btn btn-ghost btn-xs p-1 ml-1 text-gray-400 hover:text-orange-500"
+          @click="emit('edit-target', exercise)"
+        >
+          <Icon icon="heroicons:pencil" style="width: 1rem; height: 1rem" />
+        </button>
       </div>
       <!-- Show existing logs for selected date -->
       <div v-if="logs && logs.length > 0" class="card exercise-card__logs">
@@ -132,7 +138,7 @@ import { Icon } from '@iconify/vue'
 @reference "tailwindcss";
 
 .exercise-card {
-  @apply border-2 border-orange-200;
+  @apply border-2 border-orange-200 dark:border-gray-600 dark:bg-gray-800;
 }
 
 .exercise-card__header {

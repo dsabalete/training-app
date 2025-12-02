@@ -19,6 +19,7 @@ const currentWeek = ref(1)
 const selectedDate = ref(new Date().toISOString().split('T')[0])
 const exerciseLogs = ref({})
 const editingLog = ref(null)
+const editingTargetExercise = ref(null)
 import { Icon } from '@iconify/vue'
 
 onMounted(async () => {
@@ -270,6 +271,31 @@ async function handlePlanSelected() {
   await loadPlan()
   await loadLogsForDate()
 }
+
+function openEditTarget(exercise) {
+  editingTargetExercise.value = exercise
+}
+
+async function updateTarget(updatedExercise) {
+  const toast = useToast()
+  try {
+    await $fetch(`/api/workout-exercises/${updatedExercise.id}`, {
+      method: 'PUT',
+      body: {
+        target_sets: updatedExercise.target_sets,
+        target_reps: updatedExercise.target_reps,
+        target_weight: updatedExercise.target_weight,
+      },
+    })
+
+    editingTargetExercise.value = null
+    await loadPlan(currentWeek.value)
+    toast.add({ title: 'Targets updated successfully!', color: 'green' })
+  } catch (error) {
+    console.error('Error updating targets:', error)
+    toast.add({ title: 'Failed to update targets', color: 'red' })
+  }
+}
 </script>
 
 <template>
@@ -313,6 +339,7 @@ async function handlePlanSelected() {
           @toggle-log="toggleLog"
           @save-log="saveLog"
           @edit-log="editLog"
+          @edit-target="openEditTarget"
         />
       </div>
     </div>
@@ -331,6 +358,7 @@ async function handlePlanSelected() {
       @add="addExerciseToDay"
     />
     <EditLogModal :log="editingLog" @update="updateLog" @delete="deleteLog" @close="editingLog = null" />
+    <EditTargetModal :exercise="editingTargetExercise" @update="updateTarget" @close="editingTargetExercise = null" />
   </div>
 </template>
 

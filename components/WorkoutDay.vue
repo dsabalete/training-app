@@ -30,7 +30,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log'])
+const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log', 'edit-target'])
 import { Icon } from '@iconify/vue'
 </script>
 
@@ -61,6 +61,7 @@ import { Icon } from '@iconify/vue'
         @toggle-log="emit('toggle-log', $event)"
         @save-log="emit('save-log', $event)"
         @edit-log="emit('edit-log', $event)"
+        @edit-target="emit('edit-target', $event)"
       />
     </div>
 
@@ -79,7 +80,7 @@ import { Icon } from '@iconify/vue'
 @reference "tailwindcss";
 
 .workout-day {
-  @apply border-2 border-orange-200 bg-linear-to-br from-white to-orange-50;
+  @apply border-2 border-orange-200 bg-linear-to-br from-white to-orange-50 dark:border-gray-700 dark:from-gray-900 dark:to-gray-800;
 }
 
 .workout-day__header {
@@ -95,7 +96,7 @@ import { Icon } from '@iconify/vue'
 }
 
 .workout-day__title {
-  @apply text-lg font-bold text-orange-900;
+  @apply text-lg font-bold text-orange-900 dark:text-orange-100;
 }
 
 .workout-day__exercises {
