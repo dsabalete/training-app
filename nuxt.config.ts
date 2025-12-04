@@ -9,4 +9,14 @@ export default defineNuxtConfig({
       '@tailwindcss/postcss': {},
     },
   },
+  nitro: {
+    preset: 'bun',
+  },
+  vite: {
+    resolve: {
+      alias: {
+        'bun:sqlite': 'bun:sqlite',
+      },
+    },
+  },
 })

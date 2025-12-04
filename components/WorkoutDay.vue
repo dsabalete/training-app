@@ -30,7 +30,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log', 'edit-target'])
+const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log', 'edit-target', 'remove-exercise'])
 import { Icon } from '@iconify/vue'
 </script>
 
@@ -62,6 +62,7 @@ import { Icon } from '@iconify/vue'
         @save-log="emit('save-log', $event)"
         @edit-log="emit('edit-log', $event)"
         @edit-target="emit('edit-target', $event)"
+        @remove-exercise="emit('remove-exercise', $event)"
       />
     </div>
 

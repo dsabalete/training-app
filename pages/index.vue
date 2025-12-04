@@ -296,6 +296,27 @@ async function updateTarget(updatedExercise) {
     toast.add({ title: 'Failed to update targets', color: 'red' })
   }
 }
+
+async function removeExercise(exerciseId) {
+  const toast = useToast()
+  const confirmed = await new Promise(resolve => {
+    resolve(confirm('Are you sure you want to remove this exercise from the day?'))
+  })
+
+  if (confirmed) {
+    try {
+      await $fetch(`/api/workout-exercises/${exerciseId}`, {
+        method: 'DELETE',
+      })
+
+      await loadPlan(currentWeek.value)
+      toast.add({ title: 'Exercise removed successfully!', color: 'green' })
+    } catch (error) {
+      console.error('Error removing exercise:', error)
+      toast.add({ title: 'Failed to remove exercise', color: 'red' })
+    }
+  }
+}
 </script>
 
 <template>
@@ -340,6 +361,7 @@ async function updateTarget(updatedExercise) {
           @save-log="saveLog"
           @edit-log="editLog"
           @edit-target="openEditTarget"
+          @remove-exercise="removeExercise"
         />
       </div>
     </div>

@@ -1,18 +1,18 @@
-import Database from 'better-sqlite3'
 import { join } from 'path'
+import BetterSqlite3 from 'better-sqlite3'
 
-let db: Database.Database | null = null
+let db: any = null
 
 export function getDb() {
   if (!db) {
     const dbPath = join(process.cwd(), 'training.db')
-    db = new Database(dbPath)
+    db = new BetterSqlite3(dbPath)
     initDb(db)
   }
   return db
 }
 
-function initDb(database: Database.Database) {
+function initDb(database: any) {
   database.exec(`
     CREATE TABLE IF NOT EXISTS exercises (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

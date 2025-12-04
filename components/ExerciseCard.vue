@@ -26,7 +26,7 @@ defineProps({
   },
 })
 
-const emit = defineEmits(['toggle-log', 'save-log', 'edit-log', 'edit-target'])
+const emit = defineEmits(['toggle-log', 'save-log', 'edit-log', 'edit-target', 'remove-exercise'])
 
 function formatDate(dateString) {
   if (!dateString) return ''
@@ -44,10 +44,18 @@ import { Icon } from '@iconify/vue'
 
           <h4 class="exercise-card__title">{{ exercise.exercise_name }}</h4>
         </div>
-        <button class="btn btn-primary btn-sm" @click="emit('toggle-log', exercise.id)">
-          <Icon icon="heroicons:pencil-square" class="btn-icon" />
-          {{ isLogging ? 'Hide' : 'Log' }}
-        </button>
+        <div class="exercise-card__actions">
+          <button class="btn btn-primary btn-sm" @click="emit('toggle-log', exercise.id)">
+            <Icon icon="heroicons:pencil-square" class="btn-icon" />
+            {{ isLogging ? 'Hide' : 'Log' }}
+          </button>
+          <button
+            class="btn btn-ghost btn-sm text-red-500 hover:text-red-700 hover:bg-red-50"
+            @click="emit('remove-exercise', exercise.id)"
+          >
+            <Icon icon="heroicons:trash" class="btn-icon" />
+          </button>
+        </div>
       </div>
     </div>
     <div class="exercise-card__content">
@@ -143,6 +151,10 @@ import { Icon } from '@iconify/vue'
 
 .exercise-card__header {
   @apply flex justify-between items-start;
+}
+
+.exercise-card__actions {
+  @apply flex gap-2;
 }
 
 .exercise-card__title-group {

@@ -23,5 +23,6 @@
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.printWidth": 120
+  "prettier.printWidth": 120,
+  "kiroAgent.configureMCP": "Disabled"
 }

@@ -3,19 +3,18 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "clean": "rm -rf node_modules .output .nuxt && bun install",
-    "build": "bun run nuxt build",
-    "dev": "bun run nuxt dev",
-    "generate": "bun run nuxt generate",
-    "preview": "bun run nuxt preview",
-    "postinstall": "bun run nuxt prepare",
-    "seed": "bun run scripts/seed.mjs"
+    "clean": "rm -rf node_modules .output .nuxt && npm install",
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "seed": "node scripts/seed.mjs"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
     "@nuxt/eslint": "^1.10.0",
     "@nuxt/test-utils": "^3.20.1",
-    "better-sqlite3": "^12.4.1",
     "eslint": "^9.39.1",
     "nuxt": "^4.2.1",
     "typescript": "^5.9.3"
@@ -26,6 +25,7 @@
     "@tailwindcss/postcss": "^4.1.17",
     "@types/better-sqlite3": "^7.6.13",
     "autoprefixer": "^10.4.21",
+    "better-sqlite3": "^12.4.1",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "prettier-plugin-vue": "^1.1.6",
