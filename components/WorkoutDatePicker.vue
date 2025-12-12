@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'WorkoutDatePicker',
 })
@@ -19,7 +21,6 @@ const selectedDate = computed({
     emit('change', value)
   },
 })
-import { Icon } from '@iconify/vue'
 </script>
 
 <template>

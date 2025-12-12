@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'AddExerciseModal',
 })
@@ -60,7 +62,6 @@ function handleWeightChange(value) {
     target_weight: Number(value),
   })
 }
-import { Icon } from '@iconify/vue'
 </script>
 
 <template>

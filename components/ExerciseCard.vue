@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'ExerciseCard',
 })
@@ -32,7 +34,6 @@ function formatDate(dateString) {
   if (!dateString) return ''
   return new Date(dateString).toLocaleDateString()
 }
-import { Icon } from '@iconify/vue'
 </script>
 
 <template>

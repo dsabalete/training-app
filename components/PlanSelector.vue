@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'PlanSelector',
 })
@@ -52,8 +54,6 @@ watch(isOpen, newValue => {
     loadPlans()
   }
 })
-
-import { Icon } from '@iconify/vue'
 </script>
 
 <template>

@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'EditTargetModal',
 })
@@ -38,8 +40,6 @@ function handleUpdate() {
     ...editingExercise.value,
   })
 }
-
-import { Icon } from '@iconify/vue'
 </script>
 
 <template>

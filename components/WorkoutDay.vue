@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'WorkoutDay',
 })
@@ -30,8 +32,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log', 'edit-target', 'remove-exercise'])
-import { Icon } from '@iconify/vue'
+const emit = defineEmits(['add-exercise', 'toggle-log', 'save-log', 'edit-log', 'edit-target'])
 </script>
 
 <template>

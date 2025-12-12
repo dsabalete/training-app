@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'EmptyState',
 })
@@ -19,7 +21,6 @@ defineProps({
 })
 
 const emit = defineEmits(['action'])
-import { Icon } from '@iconify/vue'
 </script>
 
 <template>

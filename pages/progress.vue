@@ -1,11 +1,12 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'ProgressPage',
 })
 
 // This is a placeholder for future progress tracking features
 // You can expand this to show charts, statistics, and historical data
-import { Icon } from '@iconify/vue'
 </script>
 
 <template>

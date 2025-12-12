@@ -1,10 +1,11 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'ExercisesPage',
 })
 
 const exercises = ref([])
-import { Icon } from '@iconify/vue'
 const showAddForm = ref(false)
 const newExercise = ref({
   name: '',

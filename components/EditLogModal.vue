@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'EditLogModal',
 })
@@ -28,7 +30,6 @@ watch(
   },
   { immediate: true }
 )
-import { Icon } from '@iconify/vue'
 </script>
 
 <template>

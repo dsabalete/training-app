@@ -1,4 +1,6 @@
 <script setup>
+import { Icon } from '@iconify/vue'
+
 defineOptions({
   name: 'HeaderNavigation',
 })
@@ -8,8 +10,6 @@ const navItems = [
   { to: '/exercises', label: 'Exercises', icon: 'i-heroicons-dumbbell' },
   { to: '/progress', label: 'Progress', icon: 'i-heroicons-chart-bar' },
 ]
-
-import { Icon } from '@iconify/vue'
 
 const route = useRoute()
 </script>
